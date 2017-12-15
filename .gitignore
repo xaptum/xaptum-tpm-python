@@ -1,0 +1,3 @@
+build/
+*.pyc
+xaptumtpm/_extra_search_dir.py
