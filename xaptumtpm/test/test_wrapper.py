@@ -14,6 +14,8 @@
 
 import xaptumtpm
 
+import ctypes
+
 class TCTIException(Exception):
     pass
 
@@ -91,6 +93,138 @@ class Connection(object):
         self.public_key = (list(public_key.publicArea.unique.ecc.x.buffer),
                            list(public_key.publicArea.unique.ecc.x.buffer))
 
+    def define_nvram(self, index, size):
+        session_data = xaptumtpm.TPMS_AUTH_COMMAND(sessionHandle = xaptumtpm.TPMI_SH_AUTH_SESSION(xaptumtpm.TPM_RS_PW),
+                                                   nonce = xaptumtpm.TPM2B_NONCE(0),
+                                                   sessionAttributes = xaptumtpm.TPMA_SESSION(0),
+                                                   hmac = xaptumtpm.TPM2B_AUTH(0))
+
+        session_data_out = xaptumtpm.TPMS_AUTH_RESPONSE(nonce = xaptumtpm.TPM2B_NONCE(0),
+                                                        sessionAttributes = xaptumtpm.TPMA_SESSION(0),
+                                                        hmac = xaptumtpm.TPM2B_AUTH(0))
+
+        sessions_data_out = xaptumtpm.TSS2_SYS_RSP_AUTHS(rspAuths = xaptumtpm.pointer(xaptumtpm.pointer(session_data_out)),
+                                                         rspAuthsCount = 1)
+
+        sessions_data = xaptumtpm.TSS2_SYS_CMD_AUTHS(cmdAuths = xaptumtpm.pointer(xaptumtpm.pointer(session_data)),
+                                                     cmdAuthsCount = 1)
+
+        public_info = xaptumtpm.TPM2B_NV_PUBLIC(nvPublic=xaptumtpm.TPMS_NV_PUBLIC(nvIndex=index,
+                                                                                  nameAlg=xaptumtpm.TPM_ALG_SHA256,
+                                                                                  authPolicy=xaptumtpm.TPM2B_DIGEST(size=0),
+                                                                                  dataSize=size))
+        public_info.nvPublic.attributes.TPMA_OWNERWRITE = 1;
+        public_info.nvPublic.attributes.TPMA_POLICYWRITE = 1;
+        public_info.nvPublic.attributes.TPMA_OWNERREAD = 1;
+
+        auth_handle = xaptumtpm.TPM_RH_OWNER
+
+        nv_auth = xaptumtpm.TPM2B_AUTH(size=0)
+
+        ret = xaptumtpm.Tss2_Sys_NV_DefineSpace(self.sapi_ctx,
+                                                auth_handle,
+                                                xaptumtpm.pointer(sessions_data),
+                                                xaptumtpm.pointer(nv_auth),
+                                                xaptumtpm.pointer(public_info),
+                                                xaptumtpm.pointer(sessions_data_out))
+
+        if 0 != ret:
+            raise SAPIException('error from NV_Define: 0x%X' % ret)
+
+    def undefine_nvram(self, index):
+        session_data = xaptumtpm.TPMS_AUTH_COMMAND(sessionHandle = xaptumtpm.TPMI_SH_AUTH_SESSION(xaptumtpm.TPM_RS_PW),
+                                                   nonce = xaptumtpm.TPM2B_NONCE(0),
+                                                   sessionAttributes = xaptumtpm.TPMA_SESSION(0),
+                                                   hmac = xaptumtpm.TPM2B_AUTH(0))
+
+        session_data_out = xaptumtpm.TPMS_AUTH_RESPONSE(nonce = xaptumtpm.TPM2B_NONCE(0),
+                                                        sessionAttributes = xaptumtpm.TPMA_SESSION(0),
+                                                        hmac = xaptumtpm.TPM2B_AUTH(0))
+
+        sessions_data_out = xaptumtpm.TSS2_SYS_RSP_AUTHS(rspAuths = xaptumtpm.pointer(xaptumtpm.pointer(session_data_out)),
+                                                         rspAuthsCount = 1)
+
+        sessions_data = xaptumtpm.TSS2_SYS_CMD_AUTHS(cmdAuths = xaptumtpm.pointer(xaptumtpm.pointer(session_data)),
+                                                     cmdAuthsCount = 1)
+
+        auth_handle = xaptumtpm.TPM_RH_OWNER
+
+        ret = xaptumtpm.Tss2_Sys_NV_UndefineSpace(self.sapi_ctx,
+                                                  auth_handle,
+                                                  index,
+                                                  xaptumtpm.pointer(sessions_data),
+                                                  xaptumtpm.pointer(sessions_data_out))
+
+        if 0 != ret:
+            raise SAPIException('error from NV_Undefine: 0x%X' % ret)
+
+    def write_nvram(self, index, data):
+        session_data = xaptumtpm.TPMS_AUTH_COMMAND(sessionHandle = xaptumtpm.TPMI_SH_AUTH_SESSION(xaptumtpm.TPM_RS_PW),
+                                                   nonce = xaptumtpm.TPM2B_NONCE(0),
+                                                   sessionAttributes = xaptumtpm.TPMA_SESSION(0),
+                                                   hmac = xaptumtpm.TPM2B_AUTH(0))
+
+        session_data_out = xaptumtpm.TPMS_AUTH_RESPONSE(nonce = xaptumtpm.TPM2B_NONCE(0),
+                                                        sessionAttributes = xaptumtpm.TPMA_SESSION(0),
+                                                        hmac = xaptumtpm.TPM2B_AUTH(0))
+
+        sessions_data_out = xaptumtpm.TSS2_SYS_RSP_AUTHS(rspAuths = xaptumtpm.pointer(xaptumtpm.pointer(session_data_out)),
+                                                         rspAuthsCount = 1)
+
+        sessions_data = xaptumtpm.TSS2_SYS_CMD_AUTHS(cmdAuths = xaptumtpm.pointer(xaptumtpm.pointer(session_data)),
+                                                     cmdAuthsCount = 1)
+
+        auth_handle = xaptumtpm.TPM_RH_OWNER
+
+        nv_write_data = xaptumtpm.TPM2B_MAX_NV_BUFFER(size=len(data));
+
+        ctypes.memmove(nv_write_data.buffer, data, len(data))
+
+        ret = xaptumtpm.Tss2_Sys_NV_Write(self.sapi_ctx,
+                                          auth_handle,
+                                          index,
+                                          xaptumtpm.pointer(sessions_data),
+                                          xaptumtpm.pointer(nv_write_data),
+                                          0,
+                                          xaptumtpm.pointer(sessions_data_out))
+
+        if 0 != ret:
+            raise SAPIException('error from NV_Write: 0x%X' % ret)
+
+    def read_nvram(self, index, size):
+        session_data = xaptumtpm.TPMS_AUTH_COMMAND(sessionHandle = xaptumtpm.TPMI_SH_AUTH_SESSION(xaptumtpm.TPM_RS_PW),
+                                                   nonce = xaptumtpm.TPM2B_NONCE(0),
+                                                   sessionAttributes = xaptumtpm.TPMA_SESSION(0),
+                                                   hmac = xaptumtpm.TPM2B_AUTH(0))
+
+        session_data_out = xaptumtpm.TPMS_AUTH_RESPONSE(nonce = xaptumtpm.TPM2B_NONCE(0),
+                                                        sessionAttributes = xaptumtpm.TPMA_SESSION(0),
+                                                        hmac = xaptumtpm.TPM2B_AUTH(0))
+
+        sessions_data_out = xaptumtpm.TSS2_SYS_RSP_AUTHS(rspAuths = xaptumtpm.pointer(xaptumtpm.pointer(session_data_out)),
+                                                         rspAuthsCount = 1)
+
+        sessions_data = xaptumtpm.TSS2_SYS_CMD_AUTHS(cmdAuths = xaptumtpm.pointer(xaptumtpm.pointer(session_data)),
+                                                     cmdAuthsCount = 1)
+
+        auth_handle = xaptumtpm.TPM_RH_OWNER
+
+        nv_data = xaptumtpm.TPM2B_MAX_NV_BUFFER(size=0);
+
+        ret = xaptumtpm.Tss2_Sys_NV_Read(self.sapi_ctx,
+                                          auth_handle,
+                                          index,
+                                          xaptumtpm.pointer(sessions_data),
+                                          size,
+                                          0,
+                                          xaptumtpm.pointer(nv_data),
+                                          xaptumtpm.pointer(sessions_data_out))
+
+        if 0 != ret:
+            raise SAPIException('error from NV_Read: 0x%X' % ret)
+
+        return nv_data.buffer
+
 class SocketConnection(Connection):
     def __init__(self, hostname, port):
         tcti_ctx_size = xaptumtpm.tss2_tcti_getsize_socket()
@@ -120,3 +254,26 @@ def test_create_ecdaa_keypair():
         assert len(conn.public_key[0]) != 0
         assert len(conn.public_key[1]) != 0
         assert conn.key_handle != 0
+
+def test_nvram():
+    index = 0x1600001
+    data = 'test data 111111111111111111111111111111111111'
+    with SocketConnection('localhost', '2321') as conn:
+        try:
+            conn.undefine_nvram(index)
+        except Exception as e:
+            if '0x28b' in str(e).lower():
+                print('attempted to undefine an undefined NVRAM index')
+            else:
+                raise e
+
+        conn.define_nvram(index, len(data))
+
+        conn.write_nvram(index, data)
+
+        out_data = conn.read_nvram(index, len(data))
+
+        print('input: ' + str(data))
+        print('output: ' + str(ctypes.c_char_p(ctypes.addressof(out_data)).value))
+
+        assert ctypes.c_char_p(ctypes.addressof(out_data)).value == data
