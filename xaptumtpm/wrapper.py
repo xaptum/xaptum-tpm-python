@@ -614,6 +614,12 @@ TPMI_DH_OBJECT = TPM_HANDLE
 
 TPMI_RH_HIERARCHY = TPM_HANDLE 
 
+TPMI_RH_PROVISION = TPM_HANDLE 
+
+TPMI_RH_NV_INDEX = TPM_HANDLE 
+
+TPMI_RH_NV_AUTH = TPM_HANDLE 
+
 TPM_ALG_ID = c_uint16 
 
 TPMI_ALG_PUBLIC = TPM_ALG_ID 
@@ -1358,6 +1364,120 @@ struct_anon_46._fields_ = [
 
 TSS2_SYS_RSP_AUTHS = struct_anon_46 
 
+class struct_anon_47(Structure):
+    pass
+
+struct_anon_47.__slots__ = [
+    'TPMA_NV_PPWRITE',
+    'TPMA_OWNERWRITE',
+    'TPMA_AUTHWRITE',
+    'TPMA_POLICYWRITE',
+    'TPMA_COUNTER',
+    'TPMA_BITS',
+    'TPMA_EXTEND',
+    'Reserved1',
+    'TPMA_POLICY_DELETE',
+    'TPMA_WRITELOCKED',
+    'TPMA_WRITEALL',
+    'TPMA_WRITEDEFINE',
+    'TPMA_WRITE_STCLEAR',
+    'TPMA_GLOBALLOCK',
+    'TPMA_PPREAD',
+    'TPMA_OWNERREAD',
+    'TPMA_AUTHREAD',
+    'TPMA_POLICYREAD',
+    'Reserved2',
+    'TPMA_NO_DA',
+    'TPMA_ORDERLY',
+    'TPMA_CLEAR_STCLEAR',
+    'TPMA_READLOCKED',
+    'TPMA_WRITTEN',
+    'TPMA_PLATFORMCREATE',
+    'TPMA_READ_STCLEAR',
+]
+struct_anon_47._fields_ = [
+    ('TPMA_NV_PPWRITE', c_uint, 1),
+    ('TPMA_OWNERWRITE', c_uint, 1),
+    ('TPMA_AUTHWRITE', c_uint, 1),
+    ('TPMA_POLICYWRITE', c_uint, 1),
+    ('TPMA_COUNTER', c_uint, 1),
+    ('TPMA_BITS', c_uint, 1),
+    ('TPMA_EXTEND', c_uint, 1),
+    ('Reserved1', c_uint, 3),
+    ('TPMA_POLICY_DELETE', c_uint, 1),
+    ('TPMA_WRITELOCKED', c_uint, 1),
+    ('TPMA_WRITEALL', c_uint, 1),
+    ('TPMA_WRITEDEFINE', c_uint, 1),
+    ('TPMA_WRITE_STCLEAR', c_uint, 1),
+    ('TPMA_GLOBALLOCK', c_uint, 1),
+    ('TPMA_PPREAD', c_uint, 1),
+    ('TPMA_OWNERREAD', c_uint, 1),
+    ('TPMA_AUTHREAD', c_uint, 1),
+    ('TPMA_POLICYREAD', c_uint, 1),
+    ('Reserved2', c_uint, 5),
+    ('TPMA_NO_DA', c_uint, 1),
+    ('TPMA_ORDERLY', c_uint, 1),
+    ('TPMA_CLEAR_STCLEAR', c_uint, 1),
+    ('TPMA_READLOCKED', c_uint, 1),
+    ('TPMA_WRITTEN', c_uint, 1),
+    ('TPMA_PLATFORMCREATE', c_uint, 1),
+    ('TPMA_READ_STCLEAR', c_uint, 1),
+]
+
+TPMA_NV = struct_anon_47 
+
+
+class struct_anon_48(Structure):
+    pass
+
+struct_anon_48.__slots__ = [
+    'nvIndex',
+    'nameAlg',
+    'attributes',
+    'authPolicy',
+    'dataSize',
+]
+struct_anon_48._fields_ = [
+    ('nvIndex', TPMI_RH_NV_INDEX),
+    ('nameAlg', TPMI_ALG_HASH),
+    ('attributes', TPMA_NV),
+    ('authPolicy', TPM2B_DIGEST),
+    ('dataSize', c_uint16),
+]
+
+TPMS_NV_PUBLIC = struct_anon_48 
+
+
+class struct_anon_49(Structure):
+    pass
+
+struct_anon_49.__slots__ = [
+    'size',
+    'nvPublic',
+]
+struct_anon_49._fields_ = [
+    ('size', c_uint16),
+    ('nvPublic', TPMS_NV_PUBLIC),
+]
+
+TPM2B_NV_PUBLIC = struct_anon_49 
+
+
+class struct_anon_50(Structure):
+    pass
+
+struct_anon_50.__slots__ = [
+    'size',
+    'buffer',
+]
+struct_anon_50._fields_ = [
+    ('size', c_uint16),
+    ('buffer', c_uint8 * 768),
+]
+
+TPM2B_MAX_NV_BUFFER = struct_anon_50 
+
+
 try:
     TSS2_RC_SUCCESS = 0
 except:
@@ -1659,6 +1779,12 @@ except:
     pass
 
 try:
+    MAX_NV_BUFFER_SIZE = 768
+except:
+    pass
+
+
+try:
     HASH_COUNT = 1
 except:
     pass
@@ -1949,3 +2075,22 @@ def set_functions_from_library(extra_lib_paths):
     tss2_tcti_init_socket.argtypes = [String, String, POINTER(TSS2_TCTI_CONTEXT)]
     tss2_tcti_init_socket.restype = TSS2_RC
 
+    global Tss2_Sys_NV_DefineSpace
+    Tss2_Sys_NV_DefineSpace = lib.Tss2_Sys_NV_DefineSpace
+    Tss2_Sys_NV_DefineSpace.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_RH_PROVISION, POINTER(TSS2_SYS_CMD_AUTHS), POINTER(TPM2B_AUTH), POINTER(TPM2B_NV_PUBLIC), POINTER(TSS2_SYS_RSP_AUTHS)]
+    Tss2_Sys_NV_DefineSpace.restype = TSS2_RC
+
+    global Tss2_Sys_NV_Write
+    Tss2_Sys_NV_Write = lib.Tss2_Sys_NV_Write
+    Tss2_Sys_NV_Write.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_RH_NV_AUTH, TPMI_RH_NV_INDEX, POINTER(TSS2_SYS_CMD_AUTHS), POINTER(TPM2B_MAX_NV_BUFFER), c_uint16, POINTER(TSS2_SYS_RSP_AUTHS)]
+    Tss2_Sys_NV_Write.restype = TSS2_RC
+
+    global Tss2_Sys_NV_Read
+    Tss2_Sys_NV_Read = lib.Tss2_Sys_NV_Read
+    Tss2_Sys_NV_Read.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_RH_NV_AUTH, TPMI_RH_NV_INDEX, POINTER(TSS2_SYS_CMD_AUTHS), c_uint16, c_uint16, POINTER(TPM2B_MAX_NV_BUFFER), POINTER(TSS2_SYS_RSP_AUTHS)]
+    Tss2_Sys_NV_Read.restype = TSS2_RC
+
+    global Tss2_Sys_NV_UndefineSpace
+    Tss2_Sys_NV_UndefineSpace = lib.Tss2_Sys_NV_UndefineSpace
+    Tss2_Sys_NV_UndefineSpace.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_RH_PROVISION, TPMI_RH_NV_INDEX, POINTER(TSS2_SYS_CMD_AUTHS), POINTER(TSS2_SYS_RSP_AUTHS)]
+    Tss2_Sys_NV_UndefineSpace.restype = TSS2_RC
