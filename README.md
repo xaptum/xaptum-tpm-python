@@ -3,7 +3,7 @@
 Python wrapper for the xaptum-tpm project
 
 ## Requirements
-- xaptum-tpm >= 0.1.0
+- xaptum-tpm >= 0.2.0
 
 To use a local copy of xaptum-tpm, do the following before building/installing:
 ```
