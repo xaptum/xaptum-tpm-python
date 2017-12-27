@@ -1976,27 +1976,75 @@ except:
 
 # ../xaptum-tpm/include/tss2/tss2_tcti.h: 63
 def tss2_tcti_transmit(tctiContext, size, command):
-    return (tctiContext == NULL) and TSS2_TCTI_RC_BAD_CONTEXT or (((tctiContext.contents.version).value) < 1) and TSS2_TCTI_RC_ABI_MISMATCH or (((tctiContext.contents.transmit).value) == NULL) and TSS2_TCTI_RC_NOT_IMPLEMENTED or ((tctiContext.contents.transmit) (tctiContext, size, command))
+    cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
+    if tctiContext == NULL:
+        return TSS2_TCTI_RC_BAD_CONTEXT
+    elif (cast_pointer.contents.version < 1):
+        return TSS2_TCTI_RC_ABI_MISMATCH
+    elif (cast_pointer.contents.finalize == NULL):
+        return TSS2_TCTI_RC_NOT_IMPLEMENTED
+    else:
+        return cast_pointer.contents.transmit(tctiContext, size, command)
 
 # ../xaptum-tpm/include/tss2/tss2_tcti.h: 71
 def tss2_tcti_receive(tctiContext, size, response, timeout):
-    return (tctiContext == NULL) and TSS2_TCTI_RC_BAD_CONTEXT or (((tctiContext.contents.version).value) < 1) and TSS2_TCTI_RC_ABI_MISMATCH or (((tctiContext.contents.receive).value) == NULL) and TSS2_TCTI_RC_NOT_IMPLEMENTED or ((tctiContext.contents.receive) (tctiContext, size, response, timeout))
+    cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
+    if tctiContext == NULL:
+        return TSS2_TCTI_RC_BAD_CONTEXT
+    elif (cast_pointer.contents.version < 1):
+        return TSS2_TCTI_RC_ABI_MISMATCH
+    elif (cast_pointer.contents.finalize == NULL):
+        return TSS2_TCTI_RC_NOT_IMPLEMENTED
+    else:
+        return cast_pointer.contents.receive(tctiContext, size, response, timeout)
 
 # ../xaptum-tpm/include/tss2/tss2_tcti.h: 79
 def tss2_tcti_finalize(tctiContext):
-    return (tctiContext == NULL) and TSS2_TCTI_RC_BAD_CONTEXT or (((tctiContext.contents.version).value) < 1) and TSS2_TCTI_RC_ABI_MISMATCH or (((tctiContext.contents.finalize).value) == NULL) and TSS2_TCTI_RC_NOT_IMPLEMENTED or ((tctiContext.contents.finalize) (tctiContext))
+    cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
+    if tctiContext == NULL:
+        return TSS2_TCTI_RC_BAD_CONTEXT
+    elif (cast_pointer.contents.version < 1):
+        return TSS2_TCTI_RC_ABI_MISMATCH
+    elif (cast_pointer.contents.finalize == NULL):
+        return TSS2_TCTI_RC_NOT_IMPLEMENTED
+    else:
+        return cast_pointer.contents.finalize(tctiContext)
 
 # ../xaptum-tpm/include/tss2/tss2_tcti.h: 87
 def tss2_tcti_cancel(tctiContext):
-    return (tctiContext == NULL) and TSS2_TCTI_RC_BAD_CONTEXT or (((tctiContext.contents.version).value) < 1) and TSS2_TCTI_RC_ABI_MISMATCH or (((tctiContext.contents.cancel).value) == NULL) and TSS2_TCTI_RC_NOT_IMPLEMENTED or ((tctiContext.contents.cancel) (tctiContext))
+    cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
+    if tctiContext == NULL:
+        return TSS2_TCTI_RC_BAD_CONTEXT
+    elif (cast_pointer.contents.version < 1):
+        return TSS2_TCTI_RC_ABI_MISMATCH
+    elif (cast_pointer.contents.finalize == NULL):
+        return TSS2_TCTI_RC_NOT_IMPLEMENTED
+    else:
+        return cast_pointer.contents.cancel(tctiContext)
 
 # ../xaptum-tpm/include/tss2/tss2_tcti.h: 95
 def tss2_tcti_getPollHandles(tctiContext, handles, num_handles):
-    return (tctiContext == NULL) and TSS2_TCTI_RC_BAD_CONTEXT or (((tctiContext.contents.version).value) < 1) and TSS2_TCTI_RC_ABI_MISMATCH or (((tctiContext.contents.getPollHandles).value) == NULL) and TSS2_TCTI_RC_NOT_IMPLEMENTED or ((tctiContext.contents.getPollHandles) (tctiContext, handles, num_handles))
+    cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
+    if tctiContext == NULL:
+        return TSS2_TCTI_RC_BAD_CONTEXT
+    elif (cast_pointer.contents.version < 1):
+        return TSS2_TCTI_RC_ABI_MISMATCH
+    elif (cast_pointer.contents.finalize == NULL):
+        return TSS2_TCTI_RC_NOT_IMPLEMENTED
+    else:
+        return cast_pointer.contents.getPollHandles(tctiContext, handles, num_handles)
 
 # ../xaptum-tpm/include/tss2/tss2_tcti.h: 103
 def tss2_tcti_setLocality(tctiContext, locality):
-    return (tctiContext == NULL) and TSS2_TCTI_RC_BAD_CONTEXT or (((tctiContext.contents.version).value) < 1) and TSS2_TCTI_RC_ABI_MISMATCH or (((tctiContext.contents.setLocality).value) == NULL) and TSS2_TCTI_RC_NOT_IMPLEMENTED or ((tctiContext.contents.setLocality) (tctiContext, locality))
+    cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
+    if tctiContext == NULL:
+        return TSS2_TCTI_RC_BAD_CONTEXT
+    elif (cast_pointer.contents.version < 1):
+        return TSS2_TCTI_RC_ABI_MISMATCH
+    elif (cast_pointer.contents.finalize == NULL):
+        return TSS2_TCTI_RC_NOT_IMPLEMENTED
+    else:
+        return cast_pointer.contents.setLocality(tctiContext, locality)
 
 TSS2_TCTI_OPAQUE_CONTEXT_BLOB = struct_TSS2_TCTI_OPAQUE_CONTEXT_BLOB # ../xaptum-tpm/include/tss2/tss2_tcti.h: 39
 

@@ -110,9 +110,7 @@ class SocketConnection(Connection):
         return self
 
     def __exit__(self, exc_type, exc_value, traceback):
-        # TODO: Look into making finalize a function rather than a macro
-        # (or maybe it should just always be called in Sys_Finalize?)
-        # xaptumtpm.tss2_tcti_finalize(self.tcti_context)
+        xaptumtpm.tss2_tcti_finalize(self.tcti_ctx)
         xaptumtpm.Tss2_Sys_Finalize(self.sapi_ctx)
 
 def test_create_ecdaa_keypair():
