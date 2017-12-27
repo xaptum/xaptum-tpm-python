@@ -1,9 +1,5 @@
-'''Wrapper for tss2_common.h
-
-Generated with:
-/usr/local/bin/ctypesgen.py ../xaptum-tpm/include/tss2/tss2_common.h ../xaptum-tpm/include/tss2/tss2_sys.h ../xaptum-tpm/include/tss2/tss2_tcti.h ../xaptum-tpm/include/tss2/tss2_tcti_socket.h ../xaptum-tpm/include/tss2/tss2_tpm2_types.h -I ../xaptum-tpm/include/ -o foo.py
-
-Do not modify this file.
+'''
+Generated using ctypesgen
 '''
 
 __docformat__ =  'restructuredtext'
@@ -584,7 +580,6 @@ del loaderclass
 
 NULL = None # <built-in>
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 36
 class struct_anon_1(Structure):
     pass
 
@@ -601,45 +596,44 @@ struct_anon_1._fields_ = [
     ('tssVersion', c_uint32),
 ]
 
-TSS2_ABI_VERSION = struct_anon_1 # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 36
+TSS2_ABI_VERSION = struct_anon_1 
 
-TSS2_RC = c_uint32 # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 40
+TSS2_RC = c_uint32 
 
-TPM_ST = c_uint16 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 38
+TPM_ST = c_uint16 
 
-TPMI_ST_COMMAND_TAG = TPM_ST # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 42
+TPMI_ST_COMMAND_TAG = TPM_ST 
 
-TPM_HANDLE = c_uint32 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 46
+TPM_HANDLE = c_uint32 
 
-TPM_CC = c_uint32 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 48
+TPM_CC = c_uint32 
 
-TPMI_SH_AUTH_SESSION = TPM_HANDLE # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 59
+TPMI_SH_AUTH_SESSION = TPM_HANDLE 
 
-TPMI_DH_OBJECT = TPM_HANDLE # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 62
+TPMI_DH_OBJECT = TPM_HANDLE 
 
-TPMI_RH_HIERARCHY = TPM_HANDLE # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 64
+TPMI_RH_HIERARCHY = TPM_HANDLE 
 
-TPM_ALG_ID = c_uint16 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 70
+TPM_ALG_ID = c_uint16 
 
-TPMI_ALG_PUBLIC = TPM_ALG_ID # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 71
+TPMI_ALG_PUBLIC = TPM_ALG_ID 
 
-TPMI_ALG_HASH = TPM_ALG_ID # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 72
+TPMI_ALG_HASH = TPM_ALG_ID 
 
-TPMI_ALG_SYM_OBJECT = TPM_ALG_ID # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 73
+TPMI_ALG_SYM_OBJECT = TPM_ALG_ID 
 
-TPMI_ALG_ECC_SCHEME = TPM_ALG_ID # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 74
+TPMI_ALG_ECC_SCHEME = TPM_ALG_ID 
 
-TPMI_ALG_KDF = TPM_ALG_ID # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 75
+TPMI_ALG_KDF = TPM_ALG_ID 
 
-TPMI_ALG_SIG_SCHEME = TPM_ALG_ID # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 76
+TPMI_ALG_SIG_SCHEME = TPM_ALG_ID 
 
-TPM_ECC_CURVE = c_uint16 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 83
+TPM_ECC_CURVE = c_uint16 
 
-TPMI_ECC_CURVE = TPM_ECC_CURVE # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 84
+TPMI_ECC_CURVE = TPM_ECC_CURVE 
 
-TPMA_LOCALITY = c_uint8 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 87
+TPMA_LOCALITY = c_uint8 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 97
 class struct_anon_2(Structure):
     pass
 
@@ -652,11 +646,10 @@ struct_anon_2._fields_ = [
     ('count', c_uint16),
 ]
 
-TPMS_SCHEME_ECDAA = struct_anon_2 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 97
+TPMS_SCHEME_ECDAA = struct_anon_2 
 
-TPMS_SIG_SCHEME_ECDAA = TPMS_SCHEME_ECDAA # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 98
+TPMS_SIG_SCHEME_ECDAA = TPMS_SCHEME_ECDAA 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 102
 class union_anon_3(Union):
     pass
 
@@ -667,9 +660,8 @@ union_anon_3._fields_ = [
     ('ecdaa', TPMS_SCHEME_ECDAA),
 ]
 
-TPMU_SIG_SCHEME = union_anon_3 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 102
+TPMU_SIG_SCHEME = union_anon_3 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 107
 class struct_anon_4(Structure):
     pass
 
@@ -682,9 +674,8 @@ struct_anon_4._fields_ = [
     ('details', TPMU_SIG_SCHEME),
 ]
 
-TPMT_SIG_SCHEME = struct_anon_4 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 107
+TPMT_SIG_SCHEME = struct_anon_4 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 113
 class union_anon_5(Union):
     pass
 
@@ -699,9 +690,8 @@ union_anon_5._fields_ = [
     ('null', c_uint8),
 ]
 
-TPMU_HA = union_anon_5 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 113
+TPMU_HA = union_anon_5 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 118
 class struct_anon_6(Structure):
     pass
 
@@ -714,9 +704,8 @@ struct_anon_6._fields_ = [
     ('digest', TPMU_HA),
 ]
 
-TPMT_HA = struct_anon_6 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 118
+TPMT_HA = struct_anon_6 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 123
 class struct_anon_7(Structure):
     pass
 
@@ -729,13 +718,12 @@ struct_anon_7._fields_ = [
     ('buffer', c_uint8 * sizeof(TPMU_HA)),
 ]
 
-TPM2B_DIGEST = struct_anon_7 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 123
+TPM2B_DIGEST = struct_anon_7 
 
-TPM2B_NONCE = TPM2B_DIGEST # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 125
+TPM2B_NONCE = TPM2B_DIGEST 
 
-TPM2B_AUTH = TPM2B_DIGEST # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 127
+TPM2B_AUTH = TPM2B_DIGEST 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 137
 class struct_anon_8(Structure):
     pass
 
@@ -758,9 +746,8 @@ struct_anon_8._fields_ = [
     ('audit', c_uint, 1),
 ]
 
-TPMA_SESSION = struct_anon_8 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 137
+TPMA_SESSION = struct_anon_8 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 156
 class struct_anon_9(Structure):
     pass
 
@@ -801,9 +788,8 @@ struct_anon_9._fields_ = [
     ('Reserved5', c_uint, 13),
 ]
 
-TPMA_OBJECT = struct_anon_9 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 156
+TPMA_OBJECT = struct_anon_9 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 163
 class struct_anon_10(Structure):
     pass
 
@@ -820,9 +806,8 @@ struct_anon_10._fields_ = [
     ('hmac', TPM2B_AUTH),
 ]
 
-TPMS_AUTH_COMMAND = struct_anon_10 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 163
+TPMS_AUTH_COMMAND = struct_anon_10 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 169
 class struct_anon_11(Structure):
     pass
 
@@ -837,9 +822,8 @@ struct_anon_11._fields_ = [
     ('hmac', TPM2B_AUTH),
 ]
 
-TPMS_AUTH_RESPONSE = struct_anon_11 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 169
+TPMS_AUTH_RESPONSE = struct_anon_11 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 174
 class struct_anon_12(Structure):
     pass
 
@@ -852,9 +836,8 @@ struct_anon_12._fields_ = [
     ('buffer', c_uint8 * 128),
 ]
 
-TPM2B_SENSITIVE_DATA = struct_anon_12 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 174
+TPM2B_SENSITIVE_DATA = struct_anon_12 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 179
 class struct_anon_13(Structure):
     pass
 
@@ -867,9 +850,8 @@ struct_anon_13._fields_ = [
     ('data', TPM2B_SENSITIVE_DATA),
 ]
 
-TPMS_SENSITIVE_CREATE = struct_anon_13 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 179
+TPMS_SENSITIVE_CREATE = struct_anon_13 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 184
 class struct_anon_14(Structure):
     pass
 
@@ -882,9 +864,8 @@ struct_anon_14._fields_ = [
     ('sensitive', TPMS_SENSITIVE_CREATE),
 ]
 
-TPM2B_SENSITIVE_CREATE = struct_anon_14 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 184
+TPM2B_SENSITIVE_CREATE = struct_anon_14 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 188
 class union_anon_15(Union):
     pass
 
@@ -895,9 +876,8 @@ union_anon_15._fields_ = [
     ('null', c_uint8),
 ]
 
-TPMU_SYM_KEY_BITS = union_anon_15 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 188
+TPMU_SYM_KEY_BITS = union_anon_15 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 192
 class union_anon_16(Union):
     pass
 
@@ -908,9 +888,8 @@ union_anon_16._fields_ = [
     ('null', c_uint8),
 ]
 
-TPMU_SYM_MODE = union_anon_16 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 192
+TPMU_SYM_MODE = union_anon_16 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 196
 class union_anon_17(Union):
     pass
 
@@ -921,9 +900,8 @@ union_anon_17._fields_ = [
     ('null', c_uint8),
 ]
 
-TPMU_SYM_DETAILS = union_anon_17 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 196
+TPMU_SYM_DETAILS = union_anon_17 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 203
 class struct_anon_18(Structure):
     pass
 
@@ -940,9 +918,8 @@ struct_anon_18._fields_ = [
     ('details', TPMU_SYM_DETAILS),
 ]
 
-TPMT_SYM_DEF_OBJECT = struct_anon_18 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 203
+TPMT_SYM_DEF_OBJECT = struct_anon_18 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 207
 class union_anon_19(Union):
     pass
 
@@ -953,9 +930,8 @@ union_anon_19._fields_ = [
     ('ecdaa', TPMS_SIG_SCHEME_ECDAA),
 ]
 
-TPMU_ASYM_SCHEME = union_anon_19 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 207
+TPMU_ASYM_SCHEME = union_anon_19 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 212
 class struct_anon_20(Structure):
     pass
 
@@ -968,9 +944,8 @@ struct_anon_20._fields_ = [
     ('details', TPMU_ASYM_SCHEME),
 ]
 
-TPMT_ECC_SCHEME = struct_anon_20 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 212
+TPMT_ECC_SCHEME = struct_anon_20 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 216
 class union_anon_21(Union):
     pass
 
@@ -981,9 +956,8 @@ union_anon_21._fields_ = [
     ('null', c_uint8),
 ]
 
-TPMU_KDF_SCHEME = union_anon_21 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 216
+TPMU_KDF_SCHEME = union_anon_21 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 221
 class struct_anon_22(Structure):
     pass
 
@@ -996,9 +970,8 @@ struct_anon_22._fields_ = [
     ('details', TPMU_KDF_SCHEME),
 ]
 
-TPMT_KDF_SCHEME = struct_anon_22 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 221
+TPMT_KDF_SCHEME = struct_anon_22 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 228
 class struct_anon_23(Structure):
     pass
 
@@ -1015,9 +988,8 @@ struct_anon_23._fields_ = [
     ('kdf', TPMT_KDF_SCHEME),
 ]
 
-TPMS_ECC_PARMS = struct_anon_23 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 228
+TPMS_ECC_PARMS = struct_anon_23 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 232
 class union_anon_24(Union):
     pass
 
@@ -1028,9 +1000,8 @@ union_anon_24._fields_ = [
     ('eccDetail', TPMS_ECC_PARMS),
 ]
 
-TPMU_PUBLIC_PARMS = union_anon_24 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 232
+TPMU_PUBLIC_PARMS = union_anon_24 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 237
 class struct_anon_25(Structure):
     pass
 
@@ -1043,9 +1014,8 @@ struct_anon_25._fields_ = [
     ('buffer', c_uint8 * 32),
 ]
 
-TPM2B_ECC_PARAMETER = struct_anon_25 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 237
+TPM2B_ECC_PARAMETER = struct_anon_25 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 242
 class struct_anon_26(Structure):
     pass
 
@@ -1058,9 +1028,8 @@ struct_anon_26._fields_ = [
     ('y', TPM2B_ECC_PARAMETER),
 ]
 
-TPMS_ECC_POINT = struct_anon_26 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 242
+TPMS_ECC_POINT = struct_anon_26 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 246
 class union_anon_27(Union):
     pass
 
@@ -1071,9 +1040,8 @@ union_anon_27._fields_ = [
     ('ecc', TPMS_ECC_POINT),
 ]
 
-TPMU_PUBLIC_ID = union_anon_27 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 246
+TPMU_PUBLIC_ID = union_anon_27 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 251
 class struct_anon_28(Structure):
     pass
 
@@ -1086,9 +1054,8 @@ struct_anon_28._fields_ = [
     ('point', TPMS_ECC_POINT),
 ]
 
-TPM2B_ECC_POINT = struct_anon_28 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 251
+TPM2B_ECC_POINT = struct_anon_28 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 260
 class struct_anon_29(Structure):
     pass
 
@@ -1109,9 +1076,8 @@ struct_anon_29._fields_ = [
     ('unique', TPMU_PUBLIC_ID),
 ]
 
-TPMT_PUBLIC = struct_anon_29 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 260
+TPMT_PUBLIC = struct_anon_29 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 265
 class struct_anon_30(Structure):
     pass
 
@@ -1124,9 +1090,8 @@ struct_anon_30._fields_ = [
     ('publicArea', TPMT_PUBLIC),
 ]
 
-TPM2B_PUBLIC = struct_anon_30 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 265
+TPM2B_PUBLIC = struct_anon_30 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 270
 class struct_anon_31(Structure):
     pass
 
@@ -1139,9 +1104,8 @@ struct_anon_31._fields_ = [
     ('buffer', c_uint8 * sizeof(TPMT_HA)),
 ]
 
-TPM2B_DATA = struct_anon_31 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 270
+TPM2B_DATA = struct_anon_31 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 276
 class struct_anon_32(Structure):
     pass
 
@@ -1156,9 +1120,8 @@ struct_anon_32._fields_ = [
     ('pcrSelect', c_uint8 * 1),
 ]
 
-TPMS_PCR_SELECTION = struct_anon_32 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 276
+TPMS_PCR_SELECTION = struct_anon_32 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 281
 class struct_anon_33(Structure):
     pass
 
@@ -1171,9 +1134,8 @@ struct_anon_33._fields_ = [
     ('pcrSelections', TPMS_PCR_SELECTION * 1),
 ]
 
-TPML_PCR_SELECTION = struct_anon_33 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 281
+TPML_PCR_SELECTION = struct_anon_33 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 286
 class union_anon_34(Union):
     pass
 
@@ -1186,9 +1148,8 @@ union_anon_34._fields_ = [
     ('handle', TPM_HANDLE),
 ]
 
-TPMU_NAME = union_anon_34 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 286
+TPMU_NAME = union_anon_34 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 291
 class struct_anon_35(Structure):
     pass
 
@@ -1201,9 +1162,8 @@ struct_anon_35._fields_ = [
     ('name', c_uint8 * sizeof(TPMU_NAME)),
 ]
 
-TPM2B_NAME = struct_anon_35 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 291
+TPM2B_NAME = struct_anon_35 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 301
 class struct_anon_36(Structure):
     pass
 
@@ -1226,9 +1186,8 @@ struct_anon_36._fields_ = [
     ('outsideInfo', TPM2B_DATA),
 ]
 
-TPMS_CREATION_DATA = struct_anon_36 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 301
+TPMS_CREATION_DATA = struct_anon_36 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 306
 class struct_anon_37(Structure):
     pass
 
@@ -1241,9 +1200,8 @@ struct_anon_37._fields_ = [
     ('creationData', TPMS_CREATION_DATA),
 ]
 
-TPM2B_CREATION_DATA = struct_anon_37 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 306
+TPM2B_CREATION_DATA = struct_anon_37 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 312
 class struct_anon_38(Structure):
     pass
 
@@ -1258,9 +1216,8 @@ struct_anon_38._fields_ = [
     ('digest', TPM2B_DIGEST),
 ]
 
-TPMT_TK_CREATION = struct_anon_38 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 312
+TPMT_TK_CREATION = struct_anon_38 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 318
 class struct_anon_39(Structure):
     pass
 
@@ -1275,9 +1232,8 @@ struct_anon_39._fields_ = [
     ('digest', TPM2B_DIGEST),
 ]
 
-TPMT_TK_HASHCHECK = struct_anon_39 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 318
+TPMT_TK_HASHCHECK = struct_anon_39 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 324
 class struct_anon_40(Structure):
     pass
 
@@ -1292,9 +1248,8 @@ struct_anon_40._fields_ = [
     ('signatureS', TPM2B_ECC_PARAMETER),
 ]
 
-TPMS_SIGNATURE_ECC = struct_anon_40 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 324
+TPMS_SIGNATURE_ECC = struct_anon_40 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 328
 class union_anon_41(Union):
     pass
 
@@ -1305,9 +1260,8 @@ union_anon_41._fields_ = [
     ('ecdaa', TPMS_SIGNATURE_ECC),
 ]
 
-TPMU_SIGNATURE = union_anon_41 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 328
+TPMU_SIGNATURE = union_anon_41 
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 333
 class struct_anon_42(Structure):
     pass
 
@@ -1320,17 +1274,15 @@ struct_anon_42._fields_ = [
     ('signature', TPMU_SIGNATURE),
 ]
 
-TPMT_SIGNATURE = struct_anon_42 # ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 333
+TPMT_SIGNATURE = struct_anon_42 
 
-TSS2_TCTI_POLL_HANDLE = None # ../xaptum-tpm/include/tss2/tss2_tcti.h: 33
+TSS2_TCTI_POLL_HANDLE = None 
 
-# ../xaptum-tpm/include/tss2/tss2_tcti.h: 39
 class struct_TSS2_TCTI_OPAQUE_CONTEXT_BLOB(Structure):
     pass
 
-TSS2_TCTI_CONTEXT = struct_TSS2_TCTI_OPAQUE_CONTEXT_BLOB # ../xaptum-tpm/include/tss2/tss2_tcti.h: 39
+TSS2_TCTI_CONTEXT = struct_TSS2_TCTI_OPAQUE_CONTEXT_BLOB 
 
-# ../xaptum-tpm/include/tss2/tss2_tcti.h: 45
 class struct_anon_43(Structure):
     pass
 
@@ -1343,9 +1295,8 @@ struct_anon_43._fields_ = [
     ('version', c_uint32),
 ]
 
-TSS2_TCTI_CONTEXT_VERSION = struct_anon_43 # ../xaptum-tpm/include/tss2/tss2_tcti.h: 45
+TSS2_TCTI_CONTEXT_VERSION = struct_anon_43 
 
-# ../xaptum-tpm/include/tss2/tss2_tcti.h: 60
 class struct_anon_44(Structure):
     pass
 
@@ -1370,17 +1321,15 @@ struct_anon_44._fields_ = [
     ('setLocality', CFUNCTYPE(UNCHECKED(TSS2_RC), POINTER(TSS2_TCTI_CONTEXT), c_uint8)),
 ]
 
-TSS2_TCTI_CONTEXT_COMMON_V1 = struct_anon_44 # ../xaptum-tpm/include/tss2/tss2_tcti.h: 60
+TSS2_TCTI_CONTEXT_COMMON_V1 = struct_anon_44 
 
-TSS2_TCTI_CONTEXT_COMMON_CURRENT = TSS2_TCTI_CONTEXT_COMMON_V1 # ../xaptum-tpm/include/tss2/tss2_tcti.h: 61
+TSS2_TCTI_CONTEXT_COMMON_CURRENT = TSS2_TCTI_CONTEXT_COMMON_V1 
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 34
 class struct__TSS2_SYS_OPAQUE_CONTEXT_BLOB(Structure):
     pass
 
-TSS2_SYS_CONTEXT = struct__TSS2_SYS_OPAQUE_CONTEXT_BLOB # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 34
+TSS2_SYS_CONTEXT = struct__TSS2_SYS_OPAQUE_CONTEXT_BLOB 
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 39
 class struct_anon_45(Structure):
     pass
 
@@ -1393,9 +1342,8 @@ struct_anon_45._fields_ = [
     ('cmdAuths', POINTER(POINTER(TPMS_AUTH_COMMAND))),
 ]
 
-TSS2_SYS_CMD_AUTHS = struct_anon_45 # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 39
+TSS2_SYS_CMD_AUTHS = struct_anon_45 
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 44
 class struct_anon_46(Structure):
     pass
 
@@ -1408,573 +1356,478 @@ struct_anon_46._fields_ = [
     ('rspAuths', POINTER(POINTER(TPMS_AUTH_RESPONSE))),
 ]
 
-TSS2_SYS_RSP_AUTHS = struct_anon_46 # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 44
+TSS2_SYS_RSP_AUTHS = struct_anon_46 
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 42
 try:
     TSS2_RC_SUCCESS = 0
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 43
 try:
     TSS2_RC_LEVEL_SHIFT = 16
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 46
 try:
     TSS2_BASE_RC_GENERAL_FAILURE = 1
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 48
 try:
     TSS2_BASE_RC_NOT_IMPLEMENTED = 2
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 49
 try:
     TSS2_BASE_RC_BAD_CONTEXT = 3
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 50
 try:
     TSS2_BASE_RC_ABI_MISMATCH = 4
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 52
 try:
     TSS2_BASE_RC_BAD_REFERENCE = 5
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 54
 try:
     TSS2_BASE_RC_INSUFFICIENT_BUFFER = 6
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 55
 try:
     TSS2_BASE_RC_BAD_SEQUENCE = 7
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 56
 try:
     TSS2_BASE_RC_NO_CONNECTION = 8
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 57
 try:
     TSS2_BASE_RC_TRY_AGAIN = 9
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 59
 try:
     TSS2_BASE_RC_IO_ERROR = 10
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 60
 try:
     TSS2_BASE_RC_BAD_VALUE = 11
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 61
 try:
     TSS2_BASE_RC_NOT_PERMITTED = 12
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 62
 try:
     TSS2_BASE_RC_INVALID_SESSIONS = 13
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 65
 try:
     TSS2_BASE_RC_NO_DECRYPT_PARAM = 14
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 68
 try:
     TSS2_BASE_RC_NO_ENCRYPT_PARAM = 15
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 71
 try:
     TSS2_BASE_RC_BAD_SIZE = 16
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 72
 try:
     TSS2_BASE_RC_MALFORMED_RESPONSE = 17
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 73
 try:
     TSS2_BASE_RC_INSUFFICIENT_CONTEXT = 18
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 74
 try:
     TSS2_BASE_RC_INSUFFICIENT_RESPONSE = 19
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 75
 try:
     TSS2_BASE_RC_INCOMPATIBLE_TCTI = 20
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 76
 try:
     TSS2_BASE_RC_NOT_SUPPORTED = 21
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 77
 try:
     TSS2_BASE_RC_BAD_TCTI_STRUCTURE = 21
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 80
 try:
     TSS2_TCTI_ERROR_LEVEL = (10 << TSS2_RC_LEVEL_SHIFT)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 82
 try:
     TSS2_TCTI_RC_GENERAL_FAILURE = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_GENERAL_FAILURE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 84
 try:
     TSS2_TCTI_RC_NOT_IMPLEMENTED = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_NOT_IMPLEMENTED)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 86
 try:
     TSS2_TCTI_RC_BAD_CONTEXT = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_BAD_CONTEXT)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 88
 try:
     TSS2_TCTI_RC_ABI_MISMATCH = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_ABI_MISMATCH)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 90
 try:
     TSS2_TCTI_RC_BAD_REFERENCE = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_BAD_REFERENCE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 92
 try:
     TSS2_TCTI_RC_INSUFFICIENT_BUFFER = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_INSUFFICIENT_BUFFER)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 94
 try:
     TSS2_TCTI_RC_BAD_SEQUENCE = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_BAD_SEQUENCE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 96
 try:
     TSS2_TCTI_RC_NO_CONNECTION = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_NO_CONNECTION)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 98
 try:
     TSS2_TCTI_RC_TRY_AGAIN = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_TRY_AGAIN)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 100
 try:
     TSS2_TCTI_RC_IO_ERROR = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_IO_ERROR)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 102
 try:
     TSS2_TCTI_RC_BAD_VALUE = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_BAD_VALUE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 104
 try:
     TSS2_TCTI_RC_NOT_PERMITTED = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_NOT_PERMITTED)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 106
 try:
     TSS2_TCTI_RC_MALFORMED_RESPONSE = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_MALFORMED_RESPONSE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 108
 try:
     TSS2_TCTI_RC_NOT_SUPPORTED = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_NOT_SUPPORTED)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 112
 try:
     TSS2_SYS_ERROR_LEVEL = (8 << TSS2_RC_LEVEL_SHIFT)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 114
 try:
     TSS2_SYS_RC_GENERAL_FAILURE = (TSS2_TCTI_ERROR_LEVEL | TSS2_BASE_RC_GENERAL_FAILURE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 116
 try:
     TSS2_SYS_RC_ABI_MISMATCH = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_ABI_MISMATCH)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 118
 try:
     TSS2_SYS_RC_BAD_REFERENCE = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_BAD_REFERENCE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 120
 try:
     TSS2_SYS_RC_INSUFFICIENT_BUFFER = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_INSUFFICIENT_BUFFER)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 122
 try:
     TSS2_SYS_RC_BAD_SEQUENCE = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_BAD_SEQUENCE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 124
 try:
     TSS2_SYS_RC_BAD_VALUE = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_BAD_VALUE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 126
 try:
     TSS2_SYS_RC_INVALID_SESSIONS = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_INVALID_SESSIONS)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 128
 try:
     TSS2_SYS_RC_NO_DECRYPT_PARAM = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_NO_DECRYPT_PARAM)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 130
 try:
     TSS2_SYS_RC_NO_ENCRYPT_PARAM = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_NO_ENCRYPT_PARAM)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 132
 try:
     TSS2_SYS_RC_BAD_SIZE = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_BAD_SIZE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 134
 try:
     TSS2_SYS_RC_MALFORMED_RESPONSE = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_MALFORMED_RESPONSE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 136
 try:
     TSS2_SYS_RC_INSUFFICIENT_CONTEXT = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_INSUFFICIENT_CONTEXT)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 138
 try:
     TSS2_SYS_RC_INSUFFICIENT_RESPONSE = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_INSUFFICIENT_RESPONSE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 140
 try:
     TSS2_SYS_RC_INCOMPATIBLE_TCTI = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_INCOMPATIBLE_TCTI)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 142
 try:
     TSS2_SYS_RC_BAD_TCTI_STRUCTURE = (TSS2_SYS_ERROR_LEVEL | TSS2_BASE_RC_BAD_TCTI_STRUCTURE)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 145
 try:
     TSS2_SYS_PART2_RC_LEVEL = (9 << TSS2_RC_LEVEL_SHIFT)
 except:
     pass
 
-# /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 148
 try:
     TSS2_TPM_RC_LEVEL = 0
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 29
 try:
     COMMANDRESPONSE_SIZE = 4096
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 30
 try:
     MAX_SYM_DATA = 128
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 31
 try:
     MAX_ECC_KEY_BYTES = 32
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 32
 try:
     HASH_COUNT = 1
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 33
 try:
     PCR_SELECT_MAX = 1
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 35
 try:
     SHA256_DIGEST_SIZE = 32
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 36
 try:
     SHA512_DIGEST_SIZE = 64
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 39
 try:
     TPM_ST_CREATION = 32801
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 40
 try:
     TPM_ST_HASHCHECK = 32804
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 43
 try:
     TPM_ST_NO_SESSIONS = 32769
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 44
 try:
     TPM_ST_SESSIONS = 32770
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 49
 try:
     TPM_CC_NV_UndefineSpace = 290
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 50
 try:
     TPM_CC_NV_DefineSpace = 298
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 51
 try:
     TPM_CC_CreatePrimary = 305
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 52
 try:
     TPM_CC_NV_Write = 311
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 53
 try:
     TPM_CC_NV_Read = 334
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 54
 try:
     TPM_CC_Sign = 349
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 55
 try:
     TPM_CC_GetCapability = 378
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 56
 try:
     TPM_CC_Commit = 395
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 60
 try:
     TPM_RS_PW = 1073741833
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 65
 try:
     TPM_RH_OWNER = 1073741825
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 66
 try:
     TPM_RH_ENDORSEMENT = 1073741835
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 67
 try:
     TPM_RH_PLATFORM = 1073741836
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 68
 try:
     TPM_RH_NULL = 1073741831
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 77
 try:
     TPM_ALG_SHA256 = 11
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 78
 try:
     TPM_ALG_SHA512 = 13
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 79
 try:
     TPM_ALG_NULL = 16
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 80
 try:
     TPM_ALG_ECDAA = 26
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 81
 try:
     TPM_ALG_ECC = 35
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 85
 try:
     TPM_ECC_BN_P256 = 16
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 88
 try:
     TPM_LOC_ZERO = 1
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 89
 try:
     TPM_LOC_ONE = 2
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 90
 try:
     TPM_LOC_TWO = 4
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 91
 try:
     TPM_LOC_THREE = 8
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tpm2_types.h: 92
 try:
     TPM_LOC_FOUR = 16
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tcti.h: 36
 try:
     TSS2_TCTI_TIMEOUT_BLOCK = (-1)
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tcti.h: 37
 try:
     TSS2_TCTI_TIMEOUT_NONE = 0
 except:
     pass
 
-# ../xaptum-tpm/include/tss2/tss2_tcti.h: 63
 def tss2_tcti_transmit(tctiContext, size, command):
     cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
     if tctiContext == NULL:
@@ -1986,7 +1839,6 @@ def tss2_tcti_transmit(tctiContext, size, command):
     else:
         return cast_pointer.contents.transmit(tctiContext, size, command)
 
-# ../xaptum-tpm/include/tss2/tss2_tcti.h: 71
 def tss2_tcti_receive(tctiContext, size, response, timeout):
     cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
     if tctiContext == NULL:
@@ -1998,7 +1850,6 @@ def tss2_tcti_receive(tctiContext, size, response, timeout):
     else:
         return cast_pointer.contents.receive(tctiContext, size, response, timeout)
 
-# ../xaptum-tpm/include/tss2/tss2_tcti.h: 79
 def tss2_tcti_finalize(tctiContext):
     cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
     if tctiContext == NULL:
@@ -2010,7 +1861,6 @@ def tss2_tcti_finalize(tctiContext):
     else:
         return cast_pointer.contents.finalize(tctiContext)
 
-# ../xaptum-tpm/include/tss2/tss2_tcti.h: 87
 def tss2_tcti_cancel(tctiContext):
     cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
     if tctiContext == NULL:
@@ -2022,7 +1872,6 @@ def tss2_tcti_cancel(tctiContext):
     else:
         return cast_pointer.contents.cancel(tctiContext)
 
-# ../xaptum-tpm/include/tss2/tss2_tcti.h: 95
 def tss2_tcti_getPollHandles(tctiContext, handles, num_handles):
     cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
     if tctiContext == NULL:
@@ -2034,7 +1883,6 @@ def tss2_tcti_getPollHandles(tctiContext, handles, num_handles):
     else:
         return cast_pointer.contents.getPollHandles(tctiContext, handles, num_handles)
 
-# ../xaptum-tpm/include/tss2/tss2_tcti.h: 103
 def tss2_tcti_setLocality(tctiContext, locality):
     cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
     if tctiContext == NULL:
@@ -2046,67 +1894,56 @@ def tss2_tcti_setLocality(tctiContext, locality):
     else:
         return cast_pointer.contents.setLocality(tctiContext, locality)
 
-TSS2_TCTI_OPAQUE_CONTEXT_BLOB = struct_TSS2_TCTI_OPAQUE_CONTEXT_BLOB # ../xaptum-tpm/include/tss2/tss2_tcti.h: 39
+TSS2_TCTI_OPAQUE_CONTEXT_BLOB = struct_TSS2_TCTI_OPAQUE_CONTEXT_BLOB 
 
-_TSS2_SYS_OPAQUE_CONTEXT_BLOB = struct__TSS2_SYS_OPAQUE_CONTEXT_BLOB # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 34
+_TSS2_SYS_OPAQUE_CONTEXT_BLOB = struct__TSS2_SYS_OPAQUE_CONTEXT_BLOB 
 
 def set_functions_from_library(extra_lib_paths):
     add_library_search_dirs(extra_lib_paths)
     lib = load_library("xaptumtpm-shared")
 
-    # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_common.h: 38
-    # global TSS2_ABI_CURRENT_VERSION
     globals()['TSS2_ABI_CURRENT_VERSION'] = (TSS2_ABI_VERSION).in_dll(lib, 'TSS2_ABI_CURRENT_VERSION')
 
-    # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 51
     global Tss2_Sys_GetContextSize
     Tss2_Sys_GetContextSize = lib.Tss2_Sys_GetContextSize
     Tss2_Sys_GetContextSize.argtypes = [c_size_t]
     Tss2_Sys_GetContextSize.restype = c_size_t
 
-    # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 54
     global Tss2_Sys_Initialize
     Tss2_Sys_Initialize = lib.Tss2_Sys_Initialize
     Tss2_Sys_Initialize.argtypes = [POINTER(TSS2_SYS_CONTEXT), c_size_t, POINTER(TSS2_TCTI_CONTEXT), POINTER(TSS2_ABI_VERSION)]
     Tss2_Sys_Initialize.restype = TSS2_RC
 
-    # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 60
     global Tss2_Sys_Finalize
     Tss2_Sys_Finalize = lib.Tss2_Sys_Finalize
     Tss2_Sys_Finalize.argtypes = [POINTER(TSS2_SYS_CONTEXT)]
     Tss2_Sys_Finalize.restype = TSS2_RC
 
-    # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 63
     global Tss2_Sys_GetTctiContext
     Tss2_Sys_GetTctiContext = lib.Tss2_Sys_GetTctiContext
     Tss2_Sys_GetTctiContext.argtypes = [POINTER(TSS2_SYS_CONTEXT), POINTER(POINTER(TSS2_TCTI_CONTEXT))]
     Tss2_Sys_GetTctiContext.restype = TSS2_RC
 
-    # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 71
     global Tss2_Sys_CreatePrimary
     Tss2_Sys_CreatePrimary = lib.Tss2_Sys_CreatePrimary
     Tss2_Sys_CreatePrimary.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_RH_HIERARCHY, POINTER(TSS2_SYS_CMD_AUTHS), POINTER(TPM2B_SENSITIVE_CREATE), POINTER(TPM2B_PUBLIC), POINTER(TPM2B_DATA), POINTER(TPML_PCR_SELECTION), POINTER(TPM_HANDLE), POINTER(TPM2B_PUBLIC), POINTER(TPM2B_CREATION_DATA), POINTER(TPM2B_DIGEST), POINTER(TPMT_TK_CREATION), POINTER(TPM2B_NAME), POINTER(TSS2_SYS_RSP_AUTHS)]
     Tss2_Sys_CreatePrimary.restype = TSS2_RC
 
-    # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 87
     global Tss2_Sys_Commit
     Tss2_Sys_Commit = lib.Tss2_Sys_Commit
     Tss2_Sys_Commit.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_DH_OBJECT, POINTER(TSS2_SYS_CMD_AUTHS), POINTER(TPM2B_ECC_POINT), POINTER(TPM2B_SENSITIVE_DATA), POINTER(TPM2B_ECC_PARAMETER), POINTER(TPM2B_ECC_POINT), POINTER(TPM2B_ECC_POINT), POINTER(TPM2B_ECC_POINT), POINTER(c_uint16), POINTER(TSS2_SYS_RSP_AUTHS)]
     Tss2_Sys_Commit.restype = TSS2_RC
 
-    # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_sys.h: 100
     global Tss2_Sys_Sign
     Tss2_Sys_Sign = lib.Tss2_Sys_Sign
     Tss2_Sys_Sign.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_DH_OBJECT, POINTER(TSS2_SYS_CMD_AUTHS), POINTER(TPM2B_DIGEST), POINTER(TPMT_SIG_SCHEME), POINTER(TPMT_TK_HASHCHECK), POINTER(TPMT_SIGNATURE), POINTER(TSS2_SYS_RSP_AUTHS)]
     Tss2_Sys_Sign.restype = TSS2_RC
 
-    # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_tcti_socket.h: 40
     global tss2_tcti_getsize_socket
     tss2_tcti_getsize_socket = lib.tss2_tcti_getsize_socket
     tss2_tcti_getsize_socket.argtypes = []
     tss2_tcti_getsize_socket.restype = c_size_t
 
-    # /home/zanebeckwith/projects/xaptum-tpm/include/tss2/tss2_tcti_socket.h: 43
     global tss2_tcti_init_socket
     tss2_tcti_init_socket = lib.tss2_tcti_init_socket
     tss2_tcti_init_socket.argtypes = [String, String, POINTER(TSS2_TCTI_CONTEXT)]
