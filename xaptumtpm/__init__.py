@@ -12,15 +12,17 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License
 
-def _import_extra_search_dir():
+def _set_up_library():
     try:
         import _extra_search_dir
-
-        from xaptumtpm.wrapper import set_functions_from_library
-        set_functions_from_library(_extra_search_dir._other_dirs)
+        extra_dirs = _extra_search_dir._other_dirs
     except Exception:
-        pass
-_import_extra_search_dir()
+        extra_dirs = []
+
+    from xaptumtpm.wrapper import set_functions_from_library
+    set_functions_from_library(extra_dirs)
+
+_set_up_library()
 
 from xaptumtpm.wrapper import *
 
