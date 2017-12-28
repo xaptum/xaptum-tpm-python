@@ -469,7 +469,7 @@ class PosixLibraryLoader(LibraryLoader):
         try: directories.extend([dir.strip() for dir in open('/etc/ld.so.conf')])
         except IOError: pass
 
-        directories.extend(['/lib', '/usr/lib', '/lib64', '/usr/lib64'])
+        directories.extend(['/lib', '/usr/lib', '/lib64', '/usr/lib64', '/usr/local/lib', '/usr/local/lib64'])
 
         cache = {}
         lib_re = re.compile(r'lib(.*)\.s[ol]')
