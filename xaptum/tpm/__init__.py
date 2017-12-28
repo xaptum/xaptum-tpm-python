@@ -19,11 +19,11 @@ def _set_up_library():
     except Exception:
         extra_dirs = []
 
-    from xaptumtpm.wrapper import set_functions_from_library
+    from xaptum.tpm.wrapper import set_functions_from_library
     set_functions_from_library(extra_dirs)
 
 _set_up_library()
 
-from xaptumtpm.wrapper import *
+from xaptum.tpm.wrapper import *
 
 __path__ = __import__('pkgutil').extend_path(__path__, __name__)

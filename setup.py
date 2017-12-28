@@ -34,7 +34,7 @@ class AddLibraryPathCommand(distutils.cmd.Command):
 
     def run(self):
         if self.xtpm_lib:
-            with open('xaptumtpm/_extra_search_dir.py', 'w') as out_file:
+            with open('xaptum/tpm/_extra_search_dir.py', 'w') as out_file:
                 init = out_file.write('_other_dirs = [\'' + self.xtpm_lib + '\']')
 
 setup(
@@ -44,7 +44,7 @@ setup(
         author = 'Xaptum, Inc.',
         license = 'Apache 2.0',
         url = 'https://github.com/xaptum/xaptum-tpm-python',
-        packages = ['xaptumtpm'],
+        packages = ['xaptum', 'xaptum.tpm'],
         test_suite = 'nose.collector',
         cmdclass={
             'addlibpath': AddLibraryPathCommand,
