@@ -20,7 +20,7 @@ env:
   - IBM_TPM_DIR=${TRAVIS_BUILD_DIR}/ibm-tpm-simulator
 
 install:
-  - git clone https://github.com/xaptum/xaptum-tpm ${XAPTUM_TPM_DIR}
+  - git clone -b v0.3.0 https://github.com/xaptum/xaptum-tpm ${XAPTUM_TPM_DIR}
   - cd ${XAPTUM_TPM_DIR} 
   - mkdir -p build
   - cd build
