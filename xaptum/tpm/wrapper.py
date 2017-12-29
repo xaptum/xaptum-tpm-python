@@ -620,6 +620,8 @@ TPMI_RH_NV_INDEX = TPM_HANDLE
 
 TPMI_RH_NV_AUTH = TPM_HANDLE 
 
+TPMI_RH_HIERARCHY_AUTH = TPM_HANDLE
+
 TPM_ALG_ID = c_uint16 
 
 TPMI_ALG_PUBLIC = TPM_ALG_ID 
@@ -1830,6 +1832,10 @@ except:
     pass
 
 try:
+    TPM_CC_HierarchyChangeAuth = 297
+except:
+    pass
+try:
     TPM_CC_NV_DefineSpace = 298
 except:
     pass
@@ -2094,3 +2100,8 @@ def set_functions_from_library(extra_lib_paths):
     Tss2_Sys_NV_UndefineSpace = lib.Tss2_Sys_NV_UndefineSpace
     Tss2_Sys_NV_UndefineSpace.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_RH_PROVISION, TPMI_RH_NV_INDEX, POINTER(TSS2_SYS_CMD_AUTHS), POINTER(TSS2_SYS_RSP_AUTHS)]
     Tss2_Sys_NV_UndefineSpace.restype = TSS2_RC
+
+    global Tss2_Sys_HierarchyChangeAuth
+    Tss2_Sys_HierarchyChangeAuth = lib.Tss2_Sys_HierarchyChangeAuth
+    Tss2_Sys_HierarchyChangeAuth.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_RH_HIERARCHY_AUTH, POINTER(TSS2_SYS_CMD_AUTHS), POINTER(TPM2B_AUTH), POINTER(TSS2_SYS_RSP_AUTHS)]
+    Tss2_Sys_HierarchyChangeAuth.restype = TSS2_RC
