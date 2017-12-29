@@ -16,30 +16,49 @@ import xaptum.tpm
 
 import ctypes
 
+owner_password = 'pass'
+
 class TCTIException(Exception):
     pass
 
 class SAPIException(Exception):
     pass
 
+class PasswordAuthentication(object):
+    def __init__(self, password):
+        self.session_data = xaptum.tpm.TPMS_AUTH_COMMAND(sessionHandle = xaptum.tpm.TPMI_SH_AUTH_SESSION(xaptum.tpm.TPM_RS_PW),
+                                                         nonce = xaptum.tpm.TPM2B_NONCE(0),
+                                                         sessionAttributes = xaptum.tpm.TPMA_SESSION(0),
+                                                         hmac = xaptum.tpm.TPM2B_AUTH(0))
+        if password:
+            self.session_data.hmac.size = len(password)
+            ctypes.memmove(self.session_data.hmac.buffer, password, len(password))
+
+        self.sessions_data = xaptum.tpm.TSS2_SYS_CMD_AUTHS(cmdAuths = xaptum.tpm.pointer(xaptum.tpm.pointer(self.session_data)),
+                                                           cmdAuthsCount = 1)
+
+        self.session_data_out = xaptum.tpm.TPMS_AUTH_RESPONSE(nonce = xaptum.tpm.TPM2B_NONCE(0),
+                                                              sessionAttributes = xaptum.tpm.TPMA_SESSION(0),
+                                                              hmac = xaptum.tpm.TPM2B_AUTH(0))
+
+        self.sessions_data_out = xaptum.tpm.TSS2_SYS_RSP_AUTHS(rspAuths = xaptum.tpm.pointer(xaptum.tpm.pointer(self.session_data_out)),
+                                                               rspAuthsCount = 1)
+
 class Connection(object):
-    def create_ecdaa_keypair(self):
+    def change_password(self, hierarchy, old_auth, new_password):
+        new_auth = xaptum.tpm.TPM2B_AUTH(0)
+        new_auth.size = len(new_password)
+        ctypes.memmove(new_auth.buffer, new_password, len(new_password))
+
+        ret = xaptum.tpm.Tss2_Sys_HierarchyChangeAuth(self.sapi_ctx,
+                                                      hierarchy,
+                                                      xaptum.tpm.pointer(old_auth.sessions_data),
+                                                      xaptum.tpm.pointer(new_auth),
+                                                      xaptum.tpm.pointer(old_auth.sessions_data_out))
+        pass
+
+    def create_ecdaa_keypair(self, auth):
         hierarchy = xaptum.tpm.TPM_RH_ENDORSEMENT
-
-        session_data = xaptum.tpm.TPMS_AUTH_COMMAND(sessionHandle = xaptum.tpm.TPMI_SH_AUTH_SESSION(xaptum.tpm.TPM_RS_PW),
-                                                   nonce = xaptum.tpm.TPM2B_NONCE(0),
-                                                   sessionAttributes = xaptum.tpm.TPMA_SESSION(0),
-                                                   hmac = xaptum.tpm.TPM2B_AUTH(0))
-
-        session_data_out = xaptum.tpm.TPMS_AUTH_RESPONSE(nonce = xaptum.tpm.TPM2B_NONCE(0),
-                                                        sessionAttributes = xaptum.tpm.TPMA_SESSION(0),
-                                                        hmac = xaptum.tpm.TPM2B_AUTH(0))
-
-        sessions_data_out = xaptum.tpm.TSS2_SYS_RSP_AUTHS(rspAuths = xaptum.tpm.pointer(xaptum.tpm.pointer(session_data_out)),
-                                                         rspAuthsCount = 1)
-
-        sessions_data = xaptum.tpm.TSS2_SYS_CMD_AUTHS(cmdAuths = xaptum.tpm.pointer(xaptum.tpm.pointer(session_data)),
-                                                     cmdAuthsCount = 1)
 
         in_sensitive = xaptum.tpm.TPM2B_SENSITIVE_CREATE(sensitive=xaptum.tpm.TPMS_SENSITIVE_CREATE(data = xaptum.tpm.TPM2B_SENSITIVE_DATA(size=0),
                                                                                                   userAuth = xaptum.tpm.TPM2B_AUTH(size=0)))
@@ -73,7 +92,7 @@ class Connection(object):
 
         ret = xaptum.tpm.Tss2_Sys_CreatePrimary(self.sapi_ctx,
                                                hierarchy,
-                                               xaptum.tpm.pointer(sessions_data),
+                                               xaptum.tpm.pointer(auth.sessions_data),
                                                xaptum.tpm.pointer(in_sensitive),
                                                xaptum.tpm.pointer(in_public),
                                                xaptum.tpm.pointer(outside_info),
@@ -84,7 +103,7 @@ class Connection(object):
                                                xaptum.tpm.pointer(creation_hash),
                                                xaptum.tpm.pointer(creation_ticket),
                                                xaptum.tpm.pointer(name),
-                                               xaptum.tpm.pointer(sessions_data_out));
+                                               xaptum.tpm.pointer(auth.sessions_data_out));
 
         if 0 != ret:
             raise SAPIException('error from CreatePrimary: 0x%X' % ret)
@@ -93,22 +112,7 @@ class Connection(object):
         self.public_key = (list(public_key.publicArea.unique.ecc.x.buffer),
                            list(public_key.publicArea.unique.ecc.x.buffer))
 
-    def define_nvram(self, index, size):
-        session_data = xaptum.tpm.TPMS_AUTH_COMMAND(sessionHandle = xaptum.tpm.TPMI_SH_AUTH_SESSION(xaptum.tpm.TPM_RS_PW),
-                                                   nonce = xaptum.tpm.TPM2B_NONCE(0),
-                                                   sessionAttributes = xaptum.tpm.TPMA_SESSION(0),
-                                                   hmac = xaptum.tpm.TPM2B_AUTH(0))
-
-        session_data_out = xaptum.tpm.TPMS_AUTH_RESPONSE(nonce = xaptum.tpm.TPM2B_NONCE(0),
-                                                        sessionAttributes = xaptum.tpm.TPMA_SESSION(0),
-                                                        hmac = xaptum.tpm.TPM2B_AUTH(0))
-
-        sessions_data_out = xaptum.tpm.TSS2_SYS_RSP_AUTHS(rspAuths = xaptum.tpm.pointer(xaptum.tpm.pointer(session_data_out)),
-                                                         rspAuthsCount = 1)
-
-        sessions_data = xaptum.tpm.TSS2_SYS_CMD_AUTHS(cmdAuths = xaptum.tpm.pointer(xaptum.tpm.pointer(session_data)),
-                                                     cmdAuthsCount = 1)
-
+    def define_nvram(self, auth, index, size):
         public_info = xaptum.tpm.TPM2B_NV_PUBLIC(nvPublic=xaptum.tpm.TPMS_NV_PUBLIC(nvIndex=index,
                                                                                   nameAlg=xaptum.tpm.TPM_ALG_SHA256,
                                                                                   authPolicy=xaptum.tpm.TPM2B_DIGEST(size=0),
@@ -123,57 +127,27 @@ class Connection(object):
 
         ret = xaptum.tpm.Tss2_Sys_NV_DefineSpace(self.sapi_ctx,
                                                 auth_handle,
-                                                xaptum.tpm.pointer(sessions_data),
+                                                xaptum.tpm.pointer(auth.sessions_data),
                                                 xaptum.tpm.pointer(nv_auth),
                                                 xaptum.tpm.pointer(public_info),
-                                                xaptum.tpm.pointer(sessions_data_out))
+                                                xaptum.tpm.pointer(auth.sessions_data_out))
 
         if 0 != ret:
             raise SAPIException('error from NV_Define: 0x%X' % ret)
 
-    def undefine_nvram(self, index):
-        session_data = xaptum.tpm.TPMS_AUTH_COMMAND(sessionHandle = xaptum.tpm.TPMI_SH_AUTH_SESSION(xaptum.tpm.TPM_RS_PW),
-                                                   nonce = xaptum.tpm.TPM2B_NONCE(0),
-                                                   sessionAttributes = xaptum.tpm.TPMA_SESSION(0),
-                                                   hmac = xaptum.tpm.TPM2B_AUTH(0))
-
-        session_data_out = xaptum.tpm.TPMS_AUTH_RESPONSE(nonce = xaptum.tpm.TPM2B_NONCE(0),
-                                                        sessionAttributes = xaptum.tpm.TPMA_SESSION(0),
-                                                        hmac = xaptum.tpm.TPM2B_AUTH(0))
-
-        sessions_data_out = xaptum.tpm.TSS2_SYS_RSP_AUTHS(rspAuths = xaptum.tpm.pointer(xaptum.tpm.pointer(session_data_out)),
-                                                         rspAuthsCount = 1)
-
-        sessions_data = xaptum.tpm.TSS2_SYS_CMD_AUTHS(cmdAuths = xaptum.tpm.pointer(xaptum.tpm.pointer(session_data)),
-                                                     cmdAuthsCount = 1)
-
+    def undefine_nvram(self, auth, index):
         auth_handle = xaptum.tpm.TPM_RH_OWNER
 
         ret = xaptum.tpm.Tss2_Sys_NV_UndefineSpace(self.sapi_ctx,
                                                   auth_handle,
                                                   index,
-                                                  xaptum.tpm.pointer(sessions_data),
-                                                  xaptum.tpm.pointer(sessions_data_out))
+                                                  xaptum.tpm.pointer(auth.sessions_data),
+                                                  xaptum.tpm.pointer(auth.sessions_data_out))
 
         if 0 != ret:
             raise SAPIException('error from NV_Undefine: 0x%X' % ret)
 
-    def write_nvram(self, index, data):
-        session_data = xaptum.tpm.TPMS_AUTH_COMMAND(sessionHandle = xaptum.tpm.TPMI_SH_AUTH_SESSION(xaptum.tpm.TPM_RS_PW),
-                                                   nonce = xaptum.tpm.TPM2B_NONCE(0),
-                                                   sessionAttributes = xaptum.tpm.TPMA_SESSION(0),
-                                                   hmac = xaptum.tpm.TPM2B_AUTH(0))
-
-        session_data_out = xaptum.tpm.TPMS_AUTH_RESPONSE(nonce = xaptum.tpm.TPM2B_NONCE(0),
-                                                        sessionAttributes = xaptum.tpm.TPMA_SESSION(0),
-                                                        hmac = xaptum.tpm.TPM2B_AUTH(0))
-
-        sessions_data_out = xaptum.tpm.TSS2_SYS_RSP_AUTHS(rspAuths = xaptum.tpm.pointer(xaptum.tpm.pointer(session_data_out)),
-                                                         rspAuthsCount = 1)
-
-        sessions_data = xaptum.tpm.TSS2_SYS_CMD_AUTHS(cmdAuths = xaptum.tpm.pointer(xaptum.tpm.pointer(session_data)),
-                                                     cmdAuthsCount = 1)
-
+    def write_nvram(self, auth, index, data):
         auth_handle = xaptum.tpm.TPM_RH_OWNER
 
         nv_write_data = xaptum.tpm.TPM2B_MAX_NV_BUFFER(size=len(data));
@@ -183,30 +157,15 @@ class Connection(object):
         ret = xaptum.tpm.Tss2_Sys_NV_Write(self.sapi_ctx,
                                           auth_handle,
                                           index,
-                                          xaptum.tpm.pointer(sessions_data),
+                                          xaptum.tpm.pointer(auth.sessions_data),
                                           xaptum.tpm.pointer(nv_write_data),
                                           0,
-                                          xaptum.tpm.pointer(sessions_data_out))
+                                          xaptum.tpm.pointer(auth.sessions_data_out))
 
         if 0 != ret:
             raise SAPIException('error from NV_Write: 0x%X' % ret)
 
-    def read_nvram(self, index, size):
-        session_data = xaptum.tpm.TPMS_AUTH_COMMAND(sessionHandle = xaptum.tpm.TPMI_SH_AUTH_SESSION(xaptum.tpm.TPM_RS_PW),
-                                                   nonce = xaptum.tpm.TPM2B_NONCE(0),
-                                                   sessionAttributes = xaptum.tpm.TPMA_SESSION(0),
-                                                   hmac = xaptum.tpm.TPM2B_AUTH(0))
-
-        session_data_out = xaptum.tpm.TPMS_AUTH_RESPONSE(nonce = xaptum.tpm.TPM2B_NONCE(0),
-                                                        sessionAttributes = xaptum.tpm.TPMA_SESSION(0),
-                                                        hmac = xaptum.tpm.TPM2B_AUTH(0))
-
-        sessions_data_out = xaptum.tpm.TSS2_SYS_RSP_AUTHS(rspAuths = xaptum.tpm.pointer(xaptum.tpm.pointer(session_data_out)),
-                                                         rspAuthsCount = 1)
-
-        sessions_data = xaptum.tpm.TSS2_SYS_CMD_AUTHS(cmdAuths = xaptum.tpm.pointer(xaptum.tpm.pointer(session_data)),
-                                                     cmdAuthsCount = 1)
-
+    def read_nvram(self, auth, index, size):
         auth_handle = xaptum.tpm.TPM_RH_OWNER
 
         nv_data = xaptum.tpm.TPM2B_MAX_NV_BUFFER(size=0);
@@ -214,11 +173,11 @@ class Connection(object):
         ret = xaptum.tpm.Tss2_Sys_NV_Read(self.sapi_ctx,
                                           auth_handle,
                                           index,
-                                          xaptum.tpm.pointer(sessions_data),
+                                          xaptum.tpm.pointer(auth.sessions_data),
                                           size,
                                           0,
                                           xaptum.tpm.pointer(nv_data),
-                                          xaptum.tpm.pointer(sessions_data_out))
+                                          xaptum.tpm.pointer(auth.sessions_data_out))
 
         if 0 != ret:
             raise SAPIException('error from NV_Read: 0x%X' % ret)
@@ -247,9 +206,19 @@ class SocketConnection(Connection):
         xaptum.tpm.tss2_tcti_finalize(self.tcti_ctx)
         xaptum.tpm.Tss2_Sys_Finalize(self.sapi_ctx)
 
+def test_change_endorsement_password():
+    with SocketConnection('localhost', '2321') as conn:
+        hierarchy = xaptum.tpm.TPM_RH_ENDORSEMENT
+        old_auth = PasswordAuthentication(None)
+        new_password = owner_password
+
+        conn.change_password(hierarchy, old_auth, new_password)
+
 def test_create_ecdaa_keypair():
     with SocketConnection('localhost', '2321') as conn:
-        conn.create_ecdaa_keypair()
+        auth = PasswordAuthentication(owner_password)
+
+        conn.create_ecdaa_keypair(auth)
 
         assert len(conn.public_key[0]) != 0
         assert len(conn.public_key[1]) != 0
@@ -259,19 +228,21 @@ def test_nvram():
     index = 0x1600001
     data = 'test data 111111111111111111111111111111111111'
     with SocketConnection('localhost', '2321') as conn:
+        auth = PasswordAuthentication(None)
+
         try:
-            conn.undefine_nvram(index)
+            conn.undefine_nvram(auth, index)
         except Exception as e:
             if '0x28b' in str(e).lower():
                 print('attempted to undefine an undefined NVRAM index')
             else:
                 raise e
 
-        conn.define_nvram(index, len(data))
+        conn.define_nvram(auth, index, len(data))
 
-        conn.write_nvram(index, data)
+        conn.write_nvram(auth, index, data)
 
-        out_data = conn.read_nvram(index, len(data))
+        out_data = conn.read_nvram(auth, index, len(data))
 
         print('input: ' + str(data))
         print('output: ' + str(ctypes.c_char_p(ctypes.addressof(out_data)).value))
