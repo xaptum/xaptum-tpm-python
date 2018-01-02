@@ -39,7 +39,7 @@ class AddLibraryPathCommand(distutils.cmd.Command):
 
 setup(
         name = 'xaptum-tpm-python',
-        version = '0.1.0',
+        version = '0.3.0',
         description = 'Python wrapper for Xaptum TPM',
         author = 'Xaptum, Inc.',
         license = 'Apache 2.0',
