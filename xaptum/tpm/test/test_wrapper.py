@@ -24,6 +24,9 @@ class TCTIException(Exception):
 class SAPIException(Exception):
     pass
 
+class PasswordException(Exception):
+    pass
+
 class PasswordAuthentication(object):
     def __init__(self, password):
         self.session_data = xaptum.tpm.TPMS_AUTH_COMMAND(sessionHandle = xaptum.tpm.TPMI_SH_AUTH_SESSION(xaptum.tpm.TPM_RS_PW),
@@ -55,7 +58,9 @@ class Connection(object):
                                                       xaptum.tpm.pointer(old_auth.sessions_data),
                                                       xaptum.tpm.pointer(new_auth),
                                                       xaptum.tpm.pointer(old_auth.sessions_data_out))
-        pass
+
+        if ret != 0:
+            raise PasswordException('error setting password for hierarchy \'' + str(hierarchy) + '\', return code : 0x' + format(ret, 'x'))
 
     def create_ecdaa_keypair(self, auth):
         hierarchy = xaptum.tpm.TPM_RH_ENDORSEMENT
