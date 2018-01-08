@@ -2032,7 +2032,7 @@ _TSS2_SYS_OPAQUE_CONTEXT_BLOB = struct__TSS2_SYS_OPAQUE_CONTEXT_BLOB
 
 def set_functions_from_library(extra_lib_paths):
     add_library_search_dirs(extra_lib_paths)
-    lib = load_library("xaptumtpm-shared")
+    lib = load_library("xaptum-tpm")
 
     globals()['TSS2_ABI_CURRENT_VERSION'] = (TSS2_ABI_VERSION).in_dll(lib, 'TSS2_ABI_CURRENT_VERSION')
 
