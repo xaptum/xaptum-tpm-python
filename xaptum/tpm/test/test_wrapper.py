@@ -17,6 +17,7 @@ import xaptum.tpm
 import ctypes
 
 owner_password = 'pass'
+persistent_key_handle = 0x81010000
 
 class TCTIException(Exception):
     pass
@@ -48,6 +49,16 @@ class PasswordAuthentication(object):
                                                                rspAuthsCount = 1)
 
 class Connection(object):
+    def clear(self, auth):
+        auth_handle = xaptum.tpm.TPM_RH_LOCKOUT
+        ret = xaptum.tpm.Tss2_Sys_Clear(self.sapi_ctx,
+                                        auth_handle,
+                                        xaptum.tpm.pointer(auth.sessions_data),
+                                        xaptum.tpm.pointer(auth.sessions_data_out))
+        
+        if ret != 0:
+            raise SAPIException('error calling Tss2_Sys_Clear, return code : 0x' + format(ret, 'x'))
+
     def change_password(self, hierarchy, old_auth, new_password):
         new_auth = xaptum.tpm.TPM2B_AUTH(0)
         new_auth.size = len(new_password)
@@ -189,6 +200,137 @@ class Connection(object):
 
         return nv_data.buffer
 
+    def create_ecdaa_child_keypair(self, auth):
+        self._create_parent_key(auth)
+
+        self._create_child_key(auth)
+
+    def _create_child_key(self, auth):
+        in_sensitive = xaptum.tpm.TPM2B_SENSITIVE_CREATE(sensitive=xaptum.tpm.TPMS_SENSITIVE_CREATE(data = xaptum.tpm.TPM2B_SENSITIVE_DATA(size=0),
+                                                                                                  userAuth = xaptum.tpm.TPM2B_AUTH(size=0)))
+
+        obj_attrs = xaptum.tpm.TPMA_OBJECT(fixedTPM=1, fixedParent=1, sensitiveDataOrigin=1, userWithAuth=1, sign=1)
+        in_public = xaptum.tpm.TPM2B_PUBLIC(publicArea = xaptum.tpm.TPMT_PUBLIC(type=xaptum.tpm.TPM_ALG_ECC, nameAlg=xaptum.tpm.TPM_ALG_SHA256, objectAttributes=obj_attrs))
+        in_public.publicArea.parameters.eccDetail.symmetric.algorithm = xaptum.tpm.TPM_ALG_NULL;
+        in_public.publicArea.parameters.eccDetail.scheme.scheme = xaptum.tpm.TPM_ALG_ECDAA;
+        in_public.publicArea.parameters.eccDetail.scheme.details.ecdaa.hashAlg = xaptum.tpm.TPM_ALG_SHA256;
+        in_public.publicArea.parameters.eccDetail.scheme.details.ecdaa.count = 1;
+        in_public.publicArea.parameters.eccDetail.curveID = xaptum.tpm.TPM_ECC_BN_P256;
+        in_public.publicArea.parameters.eccDetail.kdf.scheme = xaptum.tpm.TPM_ALG_NULL;
+        in_public.publicArea.unique.ecc.x.size = 0;
+        in_public.publicArea.unique.ecc.y.size = 0;
+
+        outside_info = xaptum.tpm.TPM2B_DATA(size=0)
+
+        creation_pcr = xaptum.tpm.TPML_PCR_SELECTION(count=0)
+
+        creation_data = xaptum.tpm.TPM2B_CREATION_DATA(size=0)
+
+        creation_hash = xaptum.tpm.TPM2B_DIGEST(size=xaptum.tpm.sizeof(xaptum.tpm.TPMU_HA))
+
+        creation_ticket = xaptum.tpm.TPMT_TK_CREATION(tag=0, hierarchy=0, digest=xaptum.tpm.TPM2B_DIGEST(size=0))
+
+        self.child_public = xaptum.tpm.TPM2B_PUBLIC()
+        self.child_private = xaptum.tpm.TPM2B_PRIVATE()
+
+        ret = xaptum.tpm.Tss2_Sys_Create(self.sapi_ctx,
+                                         self.parent_key_handle,
+                                         xaptum.tpm.pointer(auth.sessions_data),
+                                         xaptum.tpm.pointer(in_sensitive),
+                                         xaptum.tpm.pointer(in_public),
+                                         xaptum.tpm.pointer(outside_info),
+                                         xaptum.tpm.pointer(creation_pcr),
+                                         xaptum.tpm.pointer(self.child_private),
+                                         xaptum.tpm.pointer(self.child_public),
+                                         xaptum.tpm.pointer(creation_data),
+                                         xaptum.tpm.pointer(creation_hash),
+                                         xaptum.tpm.pointer(creation_ticket),
+                                         xaptum.tpm.pointer(auth.sessions_data_out));
+
+        if 0 != ret:
+            raise SAPIException('error from Create: 0x%X' % ret)
+
+        name = xaptum.tpm.TPM2B_NAME()
+
+        self.signing_key_handle = xaptum.tpm.TPM_HANDLE()
+
+        ret = xaptum.tpm.Tss2_Sys_Load(self.sapi_ctx,
+                                       self.parent_key_handle,
+                                       xaptum.tpm.pointer(auth.sessions_data),
+                                       xaptum.tpm.pointer(self.child_private),
+                                       xaptum.tpm.pointer(self.child_public),
+                                       xaptum.tpm.pointer(self.signing_key_handle),
+                                       xaptum.tpm.pointer(name),
+                                       xaptum.tpm.pointer(auth.sessions_data_out));
+
+        if 0 != ret:
+            raise SAPIException('error from Load: 0x%X' % ret)
+
+        ret = xaptum.tpm.Tss2_Sys_EvictControl(self.sapi_ctx,
+                                               xaptum.tpm.TPM_RH_OWNER,
+                                               self.signing_key_handle,
+                                               xaptum.tpm.pointer(auth.sessions_data),
+                                               persistent_key_handle,
+                                               xaptum.tpm.pointer(auth.sessions_data_out));
+
+        if 0 != ret:
+            raise SAPIException('error from EvictControl: 0x%X' % ret)
+
+        self.child_key_handle = persistent_key_handle
+        self.child_public_key = (list(self.child_public.publicArea.unique.ecc.x.buffer),
+                                 list(self.child_public.publicArea.unique.ecc.y.buffer))
+
+    def _create_parent_key(self, auth):
+        hierarchy = xaptum.tpm.TPM_RH_ENDORSEMENT
+
+        in_sensitive = xaptum.tpm.TPM2B_SENSITIVE_CREATE(sensitive=xaptum.tpm.TPMS_SENSITIVE_CREATE(data = xaptum.tpm.TPM2B_SENSITIVE_DATA(size=0),
+                                                                                                  userAuth = xaptum.tpm.TPM2B_AUTH(size=0)))
+
+        obj_attrs = xaptum.tpm.TPMA_OBJECT(fixedTPM=1, fixedParent=1, sensitiveDataOrigin=1, userWithAuth=1, sign=0, restricted=1, decrypt=1)
+        in_public = xaptum.tpm.TPM2B_PUBLIC(publicArea = xaptum.tpm.TPMT_PUBLIC(type=xaptum.tpm.TPM_ALG_ECC, nameAlg=xaptum.tpm.TPM_ALG_SHA256, objectAttributes=obj_attrs))
+        in_public.publicArea.parameters.eccDetail.symmetric.algorithm = xaptum.tpm.TPM_ALG_AES;
+        in_public.publicArea.parameters.eccDetail.symmetric.keyBits.aes = 128;
+        in_public.publicArea.parameters.eccDetail.symmetric.mode.sym = xaptum.tpm.TPM_ALG_CFB;
+        in_public.publicArea.parameters.eccDetail.scheme.scheme = xaptum.tpm.TPM_ALG_NULL;
+        in_public.publicArea.parameters.eccDetail.curveID = xaptum.tpm.TPM_ECC_NIST_P256;
+        in_public.publicArea.parameters.eccDetail.kdf.scheme = xaptum.tpm.TPM_ALG_NULL;
+        in_public.publicArea.unique.ecc.x.size = 0;
+        in_public.publicArea.unique.ecc.y.size = 0;
+
+        outside_info = xaptum.tpm.TPM2B_DATA(size=0)
+
+        creation_pcr = xaptum.tpm.TPML_PCR_SELECTION(count=0)
+
+        creation_data = xaptum.tpm.TPM2B_CREATION_DATA(size=0)
+
+        creation_hash = xaptum.tpm.TPM2B_DIGEST(size=xaptum.tpm.sizeof(xaptum.tpm.TPMU_HA))
+
+        creation_ticket = xaptum.tpm.TPMT_TK_CREATION(tag=0, hierarchy=0, digest=xaptum.tpm.TPM2B_DIGEST(size=0))
+
+        name = xaptum.tpm.TPM2B_NAME(size=xaptum.tpm.sizeof(xaptum.tpm.TPMU_NAME))
+
+        public_key = xaptum.tpm.TPM2B_PUBLIC()
+
+        self.parent_key_handle = xaptum.tpm.TPM_HANDLE()
+
+        ret = xaptum.tpm.Tss2_Sys_CreatePrimary(self.sapi_ctx,
+                                               hierarchy,
+                                               xaptum.tpm.pointer(auth.sessions_data),
+                                               xaptum.tpm.pointer(in_sensitive),
+                                               xaptum.tpm.pointer(in_public),
+                                               xaptum.tpm.pointer(outside_info),
+                                               xaptum.tpm.pointer(creation_pcr),
+                                               xaptum.tpm.pointer(self.parent_key_handle),
+                                               xaptum.tpm.pointer(public_key),
+                                               xaptum.tpm.pointer(creation_data),
+                                               xaptum.tpm.pointer(creation_hash),
+                                               xaptum.tpm.pointer(creation_ticket),
+                                               xaptum.tpm.pointer(name),
+                                               xaptum.tpm.pointer(auth.sessions_data_out));
+
+        if 0 != ret:
+            raise SAPIException('error from CreatePrimary: 0x%X' % ret)
+
 class SocketConnection(Connection):
     def __init__(self, hostname, port):
         tcti_ctx_size = xaptum.tpm.tss2_tcti_getsize_socket()
@@ -213,15 +355,23 @@ class SocketConnection(Connection):
 
 def test_change_endorsement_password():
     with SocketConnection('localhost', '2321') as conn:
+        lockout_auth = PasswordAuthentication(None)
+        conn.clear(lockout_auth)
+
         hierarchy = xaptum.tpm.TPM_RH_ENDORSEMENT
         old_auth = PasswordAuthentication(None)
         new_password = owner_password
+        new_auth = PasswordAuthentication(new_password)
 
         conn.change_password(hierarchy, old_auth, new_password)
+        conn.change_password(hierarchy, new_auth, '')
 
 def test_create_ecdaa_keypair():
     with SocketConnection('localhost', '2321') as conn:
-        auth = PasswordAuthentication(owner_password)
+        lockout_auth = PasswordAuthentication(None)
+        conn.clear(lockout_auth)
+
+        auth = PasswordAuthentication(None)
 
         conn.create_ecdaa_keypair(auth)
 
@@ -233,6 +383,9 @@ def test_nvram():
     index = 0x1600001
     data = 'test data 111111111111111111111111111111111111'
     with SocketConnection('localhost', '2321') as conn:
+        lockout_auth = PasswordAuthentication(None)
+        conn.clear(lockout_auth)
+
         auth = PasswordAuthentication(None)
 
         try:
@@ -253,3 +406,26 @@ def test_nvram():
         print('output: ' + str(ctypes.c_char_p(ctypes.addressof(out_data)).value))
 
         assert ctypes.c_char_p(ctypes.addressof(out_data)).value == data
+
+def test_create_ecdaa_child_keypair():
+    with SocketConnection('localhost', '2321') as conn:
+        lockout_auth = PasswordAuthentication(None)
+        conn.clear(lockout_auth)
+
+        auth = PasswordAuthentication(None)
+
+        conn.create_ecdaa_child_keypair(auth)
+
+        assert len(conn.child_public_key[0]) != 0
+        assert len(conn.child_public_key[1]) != 0
+        assert conn.child_key_handle != 0
+
+        with open('pub_key.txt', 'w') as pub_key_file:
+            pub_key_file.write("%02X" % 4)
+            for val in conn.child_public_key[0]:
+                pub_key_file.write("%02X" % val)
+            for val in conn.child_public_key[1]:
+                pub_key_file.write("%02X" % val)
+
+        with open('handle.txt', 'w') as handle_file:
+            handle_file.write("%0.2X" % conn.child_key_handle)
