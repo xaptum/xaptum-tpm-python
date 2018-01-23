@@ -606,11 +606,15 @@ TPMI_ST_COMMAND_TAG = TPM_ST
 
 TPM_HANDLE = c_uint32 
 
+TPM_KEY_BITS = c_uint16 
+
 TPM_CC = c_uint32 
 
 TPMI_SH_AUTH_SESSION = TPM_HANDLE 
 
 TPMI_DH_OBJECT = TPM_HANDLE 
+
+TPMI_DH_PERSISTENT = TPM_HANDLE 
 
 TPMI_RH_HIERARCHY = TPM_HANDLE 
 
@@ -621,6 +625,8 @@ TPMI_RH_NV_INDEX = TPM_HANDLE
 TPMI_RH_NV_AUTH = TPM_HANDLE 
 
 TPMI_RH_HIERARCHY_AUTH = TPM_HANDLE
+
+TPMI_RH_CLEAR = TPM_HANDLE 
 
 TPM_ALG_ID = c_uint16 
 
@@ -635,6 +641,8 @@ TPMI_ALG_ECC_SCHEME = TPM_ALG_ID
 TPMI_ALG_KDF = TPM_ALG_ID 
 
 TPMI_ALG_SIG_SCHEME = TPM_ALG_ID 
+
+TPMI_ALG_SYM_MODE = TPM_ALG_ID 
 
 TPM_ECC_CURVE = c_uint16 
 
@@ -878,9 +886,11 @@ class union_anon_15(Union):
     pass
 
 union_anon_15.__slots__ = [
+    'aes',
     'null',
 ]
 union_anon_15._fields_ = [
+    ('aes', TPM_KEY_BITS),
     ('null', c_uint8),
 ]
 
@@ -890,9 +900,11 @@ class union_anon_16(Union):
     pass
 
 union_anon_16.__slots__ = [
+    'sym',
     'null',
 ]
 union_anon_16._fields_ = [
+    ('sym', TPMI_ALG_SYM_MODE),
     ('null', c_uint8),
 ]
 
@@ -1479,6 +1491,79 @@ struct_anon_50._fields_ = [
 
 TPM2B_MAX_NV_BUFFER = struct_anon_50 
 
+class union_anon_51(Union):
+    pass
+
+union_anon_51.__slots__ = [
+    'bits',
+]
+union_anon_51._fields_ = [
+    ('bits', TPM2B_SENSITIVE_DATA),
+]
+
+TPMU_SENSITIVE_COMPOSITE = union_anon_51 
+
+class struct_anon_52(Structure):
+    pass
+
+struct_anon_52.__slots__ = [
+    'sensitiveType',
+    'authValue',
+    'seedValue',
+    'sensitive',
+]
+struct_anon_52._fields_ = [
+    ('sensitiveType', TPMI_ALG_PUBLIC),
+    ('authValue', TPM2B_AUTH),
+    ('seedValue', TPM2B_DIGEST),
+    ('sensitive', TPMU_SENSITIVE_COMPOSITE),
+]
+
+TPMT_SENSITIVE = struct_anon_52 
+
+class struct_anon_53(Structure):
+    pass
+
+struct_anon_53.__slots__ = [
+    'size',
+    'sensitiveArea',
+]
+struct_anon_53._fields_ = [
+    ('size', c_uint16),
+    ('sensitiveArea', TPMT_SENSITIVE),
+]
+
+TPM2B_SENSITIVE = struct_anon_53 
+
+class struct_anon_54(Structure):
+    pass
+
+struct_anon_54.__slots__ = [
+    'integrityOuter',
+    'integrityInner',
+    'sensitive',
+]
+struct_anon_54._fields_ = [
+    ('integrityOuter', TPM2B_DIGEST),
+    ('integrityInner', TPM2B_DIGEST),
+    ('sensitive', TPM2B_SENSITIVE),
+]
+
+_PRIVATE = struct_anon_54 
+
+class struct_anon_55(Structure):
+    pass
+
+struct_anon_55.__slots__ = [
+    'size',
+    'buffer',
+]
+struct_anon_55._fields_ = [
+    ('size', c_uint16),
+    ('buffer', c_uint8 * sizeof(_PRIVATE)),
+]
+
+TPM2B_PRIVATE = struct_anon_55 
 
 try:
     TSS2_RC_SUCCESS = 0
@@ -1960,6 +2045,56 @@ try:
 except:
     pass
 
+try:
+    TPM_CC_Create = 339
+except:
+    pass
+
+try:
+    TPM_CC_Load = 343
+except:
+    pass
+
+try:
+    TPM_CC_EvictControl = 288
+except:
+    pass
+
+try:
+    TPM_CC_Clear = 294
+except:
+    pass
+
+try:
+    TPM_CC_ClearControl = 295
+except:
+    pass
+
+try:
+    TPM_RH_LOCKOUT = 1073741834
+except:
+    pass
+
+try:
+    TPM_ALG_AES = 6
+except:
+    pass
+
+try:
+    TPM_ALG_KDF1_SP800_108 = 34
+except:
+    pass
+
+try:
+    TPM_ALG_CFB = 67
+except:
+    pass
+
+try:
+    TPM_ECC_NIST_P256 = 3
+except:
+    pass
+
 def tss2_tcti_transmit(tctiContext, size, command):
     cast_pointer = cast(tctiContext, POINTER(TSS2_TCTI_CONTEXT_COMMON_V1))
     if tctiContext == NULL:
@@ -2105,3 +2240,23 @@ def set_functions_from_library(extra_lib_paths):
     Tss2_Sys_HierarchyChangeAuth = lib.Tss2_Sys_HierarchyChangeAuth
     Tss2_Sys_HierarchyChangeAuth.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_RH_HIERARCHY_AUTH, POINTER(TSS2_SYS_CMD_AUTHS), POINTER(TPM2B_AUTH), POINTER(TSS2_SYS_RSP_AUTHS)]
     Tss2_Sys_HierarchyChangeAuth.restype = TSS2_RC
+
+    global Tss2_Sys_Create
+    Tss2_Sys_Create = lib.Tss2_Sys_Create
+    Tss2_Sys_Create.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_DH_OBJECT, POINTER(TSS2_SYS_CMD_AUTHS), POINTER(TPM2B_SENSITIVE_CREATE), POINTER(TPM2B_PUBLIC), POINTER(TPM2B_DATA), POINTER(TPML_PCR_SELECTION), POINTER(TPM2B_PRIVATE), POINTER(TPM2B_PUBLIC), POINTER(TPM2B_CREATION_DATA), POINTER(TPM2B_DIGEST), POINTER(TPMT_TK_CREATION), POINTER(TSS2_SYS_RSP_AUTHS)]
+    Tss2_Sys_Create.restype = TSS2_RC
+
+    global Tss2_Sys_Load
+    Tss2_Sys_Load = lib.Tss2_Sys_Load
+    Tss2_Sys_Load.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_DH_OBJECT, POINTER(TSS2_SYS_CMD_AUTHS), POINTER(TPM2B_PRIVATE), POINTER(TPM2B_PUBLIC), POINTER(TPM_HANDLE), POINTER(TPM2B_NAME), POINTER(TSS2_SYS_RSP_AUTHS)]
+    Tss2_Sys_Load.restype = TSS2_RC
+
+    global Tss2_Sys_EvictControl
+    Tss2_Sys_EvictControl = lib.Tss2_Sys_EvictControl
+    Tss2_Sys_EvictControl.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_RH_PROVISION, TPMI_DH_OBJECT, POINTER(TSS2_SYS_CMD_AUTHS), TPMI_DH_PERSISTENT, POINTER(TSS2_SYS_RSP_AUTHS)]
+    Tss2_Sys_EvictControl.restype = TSS2_RC
+
+    global Tss2_Sys_Clear
+    Tss2_Sys_Clear = lib.Tss2_Sys_Clear
+    Tss2_Sys_Clear.argtypes = [POINTER(TSS2_SYS_CONTEXT), TPMI_RH_CLEAR, POINTER(TSS2_SYS_CMD_AUTHS), POINTER(TSS2_SYS_RSP_AUTHS)]
+    Tss2_Sys_Clear.restype = TSS2_RC
