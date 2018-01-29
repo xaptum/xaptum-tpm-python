@@ -42,6 +42,7 @@ setup(
         version = '0.4.0',
         description = 'Python wrapper for Xaptum TPM',
         author = 'Xaptum, Inc.',
+        author_email = 'sales@xaptum.com',
         license = 'Apache 2.0',
         url = 'https://github.com/xaptum/xaptum-tpm-python',
         packages = ['xaptum', 'xaptum.tpm'],
